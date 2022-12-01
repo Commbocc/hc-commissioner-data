@@ -1,13 +1,21 @@
 {
   "private": true,
   "scripts": {
+    "dev": "run-s generate:types nuxt:dev",
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "nuxt:dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "generate:types": "graphql-codegen -r dotenv/config --config ./codegen-config.js"
   },
   "devDependencies": {
-    "nuxt": "3.0.0"
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.11",
+    "@graphql-codegen/typescript-graphql-files-modules": "^2.2.0",
+    "graphql": "^16.6.0",
+    "npm-run-all": "^4.1.5",
+    "nuxt": "3.0.0",
+    "typescript": "^4.9.3"
   }
 }
