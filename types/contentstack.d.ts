@@ -99,6 +99,12 @@ export type AllContact = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type AllCouncil = {
+  __typename?: 'AllCouncil';
+  items?: Maybe<Array<Maybe<Council>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type AllDepartment = {
   __typename?: 'AllDepartment';
   items?: Maybe<Array<Maybe<Department>>>;
@@ -108,12 +114,6 @@ export type AllDepartment = {
 export type AllDisclaimer = {
   __typename?: 'AllDisclaimer';
   items?: Maybe<Array<Maybe<Disclaimer>>>;
-  total?: Maybe<Scalars['Int']>;
-};
-
-export type AllEvent = {
-  __typename?: 'AllEvent';
-  items?: Maybe<Array<Maybe<Event>>>;
   total?: Maybe<Scalars['Int']>;
 };
 
@@ -132,12 +132,6 @@ export type AllFaq = {
 export type AllFeaturedContentComponent = {
   __typename?: 'AllFeaturedContentComponent';
   items?: Maybe<Array<Maybe<FeaturedContentComponent>>>;
-  total?: Maybe<Scalars['Int']>;
-};
-
-export type AllGlobalSettings = {
-  __typename?: 'AllGlobalSettings';
-  items?: Maybe<Array<Maybe<GlobalSettings>>>;
   total?: Maybe<Scalars['Int']>;
 };
 
@@ -413,6 +407,7 @@ export type BasePage = {
   __typename?: 'BasePage';
   base_imageConnection?: Maybe<SysAssetConnection>;
   body?: Maybe<BasePageBody>;
+  image?: Maybe<Scalars['JSON']>;
   navigation?: Maybe<BasePageNavigation>;
   short_description?: Maybe<Scalars['String']>;
   show_table_of_contents?: Maybe<Scalars['Boolean']>;
@@ -443,7 +438,7 @@ export type BasePageBodyEdge = {
   node?: Maybe<BasePageBodyNode>;
 };
 
-export type BasePageBodyNode = Article | AssetFolder | Department | Disclaimer | Event | ExternalLink | Faq | IframeApp | ImageGallery | Location | Page | SysAsset;
+export type BasePageBodyNode = Article | AssetFolder | Department | Disclaimer | ExternalLink | Faq | IframeApp | ImageGallery | Location | Page | SysAsset;
 
 export type BasePageNavigation = {
   __typename?: 'BasePageNavigation';
@@ -479,6 +474,8 @@ export type BasePageWhere = {
   base_image_exists?: InputMaybe<Scalars['Boolean']>;
   body?: InputMaybe<Scalars['JSON']>;
   body_exists?: InputMaybe<Scalars['Boolean']>;
+  image?: InputMaybe<Scalars['JSON']>;
+  image_exists?: InputMaybe<Scalars['Boolean']>;
   navigation?: InputMaybe<BasePageNavigationWhere>;
   navigation_exists?: InputMaybe<Scalars['Boolean']>;
   short_description?: InputMaybe<Scalars['String']>;
@@ -500,7 +497,9 @@ export type BasePageWhere = {
 
 export type CalendarEvent = {
   __typename?: 'CalendarEvent';
+  base?: Maybe<BasePage>;
   calendar?: Maybe<Scalars['String']>;
+  locationConnection?: Maybe<CalendarEventLocationConnection>;
   system?: Maybe<EntrySystemField>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
@@ -508,9 +507,13 @@ export type CalendarEvent = {
 
 export type CalendarEventInstance = {
   __typename?: 'CalendarEventInstance';
+  canceled?: Maybe<Scalars['Boolean']>;
+  end_time?: Maybe<Scalars['DateTime']>;
   eventConnection?: Maybe<CalendarEventInstanceEventConnection>;
+  start_time?: Maybe<Scalars['DateTime']>;
   system?: Maybe<EntrySystemField>;
   title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type CalendarEventInstanceEventConnection = {
@@ -541,6 +544,9 @@ export enum CalendarEventInstanceOrderBy {
 export type CalendarEventInstanceWhere = {
   AND?: InputMaybe<Array<InputMaybe<CalendarEventInstanceWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<CalendarEventInstanceWhere>>>;
+  canceled?: InputMaybe<Scalars['Boolean']>;
+  canceled_exists?: InputMaybe<Scalars['Boolean']>;
+  canceled_ne?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -549,6 +555,15 @@ export type CalendarEventInstanceWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  end_time?: InputMaybe<Scalars['DateTime']>;
+  end_time_exists?: InputMaybe<Scalars['Boolean']>;
+  end_time_gt?: InputMaybe<Scalars['DateTime']>;
+  end_time_gte?: InputMaybe<Scalars['DateTime']>;
+  end_time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  end_time_lt?: InputMaybe<Scalars['DateTime']>;
+  end_time_lte?: InputMaybe<Scalars['DateTime']>;
+  end_time_ne?: InputMaybe<Scalars['DateTime']>;
+  end_time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   event?: InputMaybe<CalendarEventInstanceEventWhere>;
   event_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
@@ -556,6 +571,15 @@ export type CalendarEventInstanceWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  start_time?: InputMaybe<Scalars['DateTime']>;
+  start_time_exists?: InputMaybe<Scalars['Boolean']>;
+  start_time_gt?: InputMaybe<Scalars['DateTime']>;
+  start_time_gte?: InputMaybe<Scalars['DateTime']>;
+  start_time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  start_time_lt?: InputMaybe<Scalars['DateTime']>;
+  start_time_lte?: InputMaybe<Scalars['DateTime']>;
+  start_time_ne?: InputMaybe<Scalars['DateTime']>;
+  start_time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -576,6 +600,29 @@ export type CalendarEventInstanceWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CalendarEventLocationConnection = {
+  __typename?: 'CalendarEventLocationConnection';
+  edges?: Maybe<Array<Maybe<CalendarEventLocationEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type CalendarEventLocationEdge = {
+  __typename?: 'CalendarEventLocationEdge';
+  node?: Maybe<CalendarEventLocationNode>;
+};
+
+export type CalendarEventLocationNode = Location;
+
+export type CalendarEventLocationWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  location?: InputMaybe<LocationWhere>;
 };
 
 export enum CalendarEventOrderBy {
@@ -588,6 +635,8 @@ export enum CalendarEventOrderBy {
 export type CalendarEventWhere = {
   AND?: InputMaybe<Array<InputMaybe<CalendarEventWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<CalendarEventWhere>>>;
+  base?: InputMaybe<BasePageWhere>;
+  base_exists?: InputMaybe<Scalars['Boolean']>;
   calendar?: InputMaybe<Scalars['String']>;
   calendar_exists?: InputMaybe<Scalars['Boolean']>;
   calendar_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -606,6 +655,8 @@ export type CalendarEventWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location?: InputMaybe<CalendarEventLocationWhere>;
+  location_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -774,6 +825,7 @@ export type CommissionerWhere = {
 export type Contact = {
   __typename?: 'Contact';
   admin_assistantConnection?: Maybe<ContactAdminAssistantConnection>;
+  cloudinary_headshot?: Maybe<Scalars['JSON']>;
   emails?: Maybe<Array<Maybe<ContactEmails>>>;
   headshotConnection?: Maybe<SysAssetConnection>;
   job_title?: Maybe<Scalars['String']>;
@@ -880,6 +932,8 @@ export type ContactWhere = {
   admin_assistant?: InputMaybe<ContactAdminAssistantWhere>;
   admin_assistant_count?: InputMaybe<Scalars['Int']>;
   admin_assistant_exists?: InputMaybe<Scalars['Boolean']>;
+  cloudinary_headshot?: InputMaybe<Scalars['JSON']>;
+  cloudinary_headshot_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -926,6 +980,133 @@ export type ContactWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+};
+
+export type Council = {
+  __typename?: 'Council';
+  base?: Maybe<BasePage>;
+  eventConnection?: Maybe<CouncilEventConnection>;
+  members?: Maybe<Array<Maybe<CouncilMembers>>>;
+  system?: Maybe<EntrySystemField>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CouncilEventConnection = {
+  __typename?: 'CouncilEventConnection';
+  edges?: Maybe<Array<Maybe<CouncilEventEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type CouncilEventEdge = {
+  __typename?: 'CouncilEventEdge';
+  node?: Maybe<CouncilEventNode>;
+};
+
+export type CouncilEventNode = CalendarEvent;
+
+export type CouncilEventWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  calendar_event?: InputMaybe<CalendarEventWhere>;
+};
+
+export type CouncilMembers = {
+  __typename?: 'CouncilMembers';
+  end_date?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  position?: Maybe<Scalars['String']>;
+  reappointed?: Maybe<Scalars['Boolean']>;
+  start_date?: Maybe<Scalars['DateTime']>;
+};
+
+export type CouncilMembersWhere = {
+  end_date?: InputMaybe<Scalars['DateTime']>;
+  end_date_exists?: InputMaybe<Scalars['Boolean']>;
+  end_date_gt?: InputMaybe<Scalars['DateTime']>;
+  end_date_gte?: InputMaybe<Scalars['DateTime']>;
+  end_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  end_date_lt?: InputMaybe<Scalars['DateTime']>;
+  end_date_lte?: InputMaybe<Scalars['DateTime']>;
+  end_date_ne?: InputMaybe<Scalars['DateTime']>;
+  end_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  name?: InputMaybe<Scalars['String']>;
+  name_exists?: InputMaybe<Scalars['Boolean']>;
+  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  name_ne?: InputMaybe<Scalars['String']>;
+  name_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  position?: InputMaybe<Scalars['String']>;
+  position_exists?: InputMaybe<Scalars['Boolean']>;
+  position_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  position_ne?: InputMaybe<Scalars['String']>;
+  position_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  reappointed?: InputMaybe<Scalars['Boolean']>;
+  reappointed_exists?: InputMaybe<Scalars['Boolean']>;
+  reappointed_ne?: InputMaybe<Scalars['Boolean']>;
+  start_date?: InputMaybe<Scalars['DateTime']>;
+  start_date_exists?: InputMaybe<Scalars['Boolean']>;
+  start_date_gt?: InputMaybe<Scalars['DateTime']>;
+  start_date_gte?: InputMaybe<Scalars['DateTime']>;
+  start_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  start_date_lt?: InputMaybe<Scalars['DateTime']>;
+  start_date_lte?: InputMaybe<Scalars['DateTime']>;
+  start_date_ne?: InputMaybe<Scalars['DateTime']>;
+  start_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+};
+
+export enum CouncilOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type CouncilWhere = {
+  AND?: InputMaybe<Array<InputMaybe<CouncilWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<CouncilWhere>>>;
+  base?: InputMaybe<BasePageWhere>;
+  base_exists?: InputMaybe<Scalars['Boolean']>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  event?: InputMaybe<CouncilEventWhere>;
+  event_exists?: InputMaybe<Scalars['Boolean']>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  members?: InputMaybe<CouncilMembersWhere>;
+  members_exists?: InputMaybe<Scalars['Boolean']>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Department = {
@@ -1182,107 +1363,6 @@ export enum EvalReferenceEnum {
   Any = 'ANY'
 }
 
-export type Event = {
-  __typename?: 'Event';
-  end_date_and_time?: Maybe<Scalars['DateTime']>;
-  event?: Maybe<BasePage>;
-  locationConnection?: Maybe<EventLocationConnection>;
-  start_date_and_time?: Maybe<Scalars['DateTime']>;
-  system?: Maybe<EntrySystemField>;
-  title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-};
-
-export type EventLocationConnection = {
-  __typename?: 'EventLocationConnection';
-  edges?: Maybe<Array<Maybe<EventLocationEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-export type EventLocationEdge = {
-  __typename?: 'EventLocationEdge';
-  node?: Maybe<EventLocationNode>;
-};
-
-export type EventLocationNode = Location;
-
-export type EventLocationWhere = {
-  MATCH?: InputMaybe<EvalReferenceEnum>;
-  location?: InputMaybe<LocationWhere>;
-};
-
-export enum EventOrderBy {
-  CreatedAtAsc = 'created_at_ASC',
-  CreatedAtDesc = 'created_at_DESC',
-  UpdatedAtAsc = 'updated_at_ASC',
-  UpdatedAtDesc = 'updated_at_DESC'
-}
-
-export type EventWhere = {
-  AND?: InputMaybe<Array<InputMaybe<EventWhere>>>;
-  OR?: InputMaybe<Array<InputMaybe<EventWhere>>>;
-  created_at?: InputMaybe<Scalars['DateTime']>;
-  created_at_gt?: InputMaybe<Scalars['DateTime']>;
-  created_at_gte?: InputMaybe<Scalars['DateTime']>;
-  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  created_at_lt?: InputMaybe<Scalars['DateTime']>;
-  created_at_lte?: InputMaybe<Scalars['DateTime']>;
-  created_at_ne?: InputMaybe<Scalars['DateTime']>;
-  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  end_date_and_time?: InputMaybe<Scalars['DateTime']>;
-  end_date_and_time_exists?: InputMaybe<Scalars['Boolean']>;
-  end_date_and_time_gt?: InputMaybe<Scalars['DateTime']>;
-  end_date_and_time_gte?: InputMaybe<Scalars['DateTime']>;
-  end_date_and_time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  end_date_and_time_lt?: InputMaybe<Scalars['DateTime']>;
-  end_date_and_time_lte?: InputMaybe<Scalars['DateTime']>;
-  end_date_and_time_ne?: InputMaybe<Scalars['DateTime']>;
-  end_date_and_time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  event?: InputMaybe<BasePageWhere>;
-  event_exists?: InputMaybe<Scalars['Boolean']>;
-  locale?: InputMaybe<Scalars['String']>;
-  locale_exists?: InputMaybe<Scalars['Boolean']>;
-  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  locale_ne?: InputMaybe<Scalars['String']>;
-  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<EventLocationWhere>;
-  location_exists?: InputMaybe<Scalars['Boolean']>;
-  start_date_and_time?: InputMaybe<Scalars['DateTime']>;
-  start_date_and_time_exists?: InputMaybe<Scalars['Boolean']>;
-  start_date_and_time_gt?: InputMaybe<Scalars['DateTime']>;
-  start_date_and_time_gte?: InputMaybe<Scalars['DateTime']>;
-  start_date_and_time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  start_date_and_time_lt?: InputMaybe<Scalars['DateTime']>;
-  start_date_and_time_lte?: InputMaybe<Scalars['DateTime']>;
-  start_date_and_time_ne?: InputMaybe<Scalars['DateTime']>;
-  start_date_and_time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title?: InputMaybe<Scalars['String']>;
-  title_exists?: InputMaybe<Scalars['Boolean']>;
-  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title_ne?: InputMaybe<Scalars['String']>;
-  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uid?: InputMaybe<Scalars['String']>;
-  uid_exists?: InputMaybe<Scalars['Boolean']>;
-  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uid_ne?: InputMaybe<Scalars['String']>;
-  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  updated_at?: InputMaybe<Scalars['DateTime']>;
-  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
-  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
-  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
-  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
-  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
-  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  url?: InputMaybe<Scalars['String']>;
-  url_exists?: InputMaybe<Scalars['Boolean']>;
-  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  url_ne?: InputMaybe<Scalars['String']>;
-  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
 export type ExternalLink = {
   __typename?: 'ExternalLink';
   link?: Maybe<Link>;
@@ -1435,6 +1515,7 @@ export type FaqWhere = {
 export type FeaturedContentComponent = {
   __typename?: 'FeaturedContentComponent';
   body?: Maybe<Scalars['String']>;
+  cloudinary_image?: Maybe<Scalars['JSON']>;
   color?: Maybe<Scalars['String']>;
   icon?: Maybe<Scalars['String']>;
   imageConnection?: Maybe<SysAssetConnection>;
@@ -1459,6 +1540,8 @@ export type FeaturedContentComponentWhere = {
   body_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   body_ne?: InputMaybe<Scalars['String']>;
   body_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  cloudinary_image?: InputMaybe<Scalars['JSON']>;
+  cloudinary_image_exists?: InputMaybe<Scalars['Boolean']>;
   color?: InputMaybe<Scalars['String']>;
   color_exists?: InputMaybe<Scalars['Boolean']>;
   color_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1511,75 +1594,6 @@ export type FeaturedContentComponentWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-};
-
-export type GlobalSettings = {
-  __typename?: 'GlobalSettings';
-  key?: Maybe<Scalars['String']>;
-  system?: Maybe<EntrySystemField>;
-  title?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
-};
-
-export enum GlobalSettingsOrderBy {
-  CreatedAtAsc = 'created_at_ASC',
-  CreatedAtDesc = 'created_at_DESC',
-  UpdatedAtAsc = 'updated_at_ASC',
-  UpdatedAtDesc = 'updated_at_DESC'
-}
-
-export type GlobalSettingsWhere = {
-  AND?: InputMaybe<Array<InputMaybe<GlobalSettingsWhere>>>;
-  OR?: InputMaybe<Array<InputMaybe<GlobalSettingsWhere>>>;
-  created_at?: InputMaybe<Scalars['DateTime']>;
-  created_at_gt?: InputMaybe<Scalars['DateTime']>;
-  created_at_gte?: InputMaybe<Scalars['DateTime']>;
-  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  created_at_lt?: InputMaybe<Scalars['DateTime']>;
-  created_at_lte?: InputMaybe<Scalars['DateTime']>;
-  created_at_ne?: InputMaybe<Scalars['DateTime']>;
-  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  key?: InputMaybe<Scalars['String']>;
-  key_exists?: InputMaybe<Scalars['Boolean']>;
-  key_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  key_ne?: InputMaybe<Scalars['String']>;
-  key_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  locale?: InputMaybe<Scalars['String']>;
-  locale_exists?: InputMaybe<Scalars['Boolean']>;
-  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  locale_ne?: InputMaybe<Scalars['String']>;
-  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title?: InputMaybe<Scalars['String']>;
-  title_exists?: InputMaybe<Scalars['Boolean']>;
-  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title_ne?: InputMaybe<Scalars['String']>;
-  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  type?: InputMaybe<Scalars['String']>;
-  type_exists?: InputMaybe<Scalars['Boolean']>;
-  type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  type_ne?: InputMaybe<Scalars['String']>;
-  type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uid?: InputMaybe<Scalars['String']>;
-  uid_exists?: InputMaybe<Scalars['Boolean']>;
-  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uid_ne?: InputMaybe<Scalars['String']>;
-  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  updated_at?: InputMaybe<Scalars['DateTime']>;
-  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
-  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
-  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
-  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
-  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
-  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  value?: InputMaybe<Scalars['String']>;
-  value_exists?: InputMaybe<Scalars['Boolean']>;
-  value_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  value_ne?: InputMaybe<Scalars['String']>;
-  value_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type HikingTrail = {
@@ -1969,6 +1983,7 @@ export type IframeAppWhere = {
 
 export type ImageGallery = {
   __typename?: 'ImageGallery';
+  cloudinary_images?: Maybe<Scalars['JSON']>;
   description?: Maybe<Scalars['String']>;
   image_filesConnection?: Maybe<SysAssetConnection>;
   system?: Maybe<EntrySystemField>;
@@ -1991,6 +2006,8 @@ export enum ImageGalleryOrderBy {
 export type ImageGalleryWhere = {
   AND?: InputMaybe<Array<InputMaybe<ImageGalleryWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<ImageGalleryWhere>>>;
+  cloudinary_images?: InputMaybe<Scalars['JSON']>;
+  cloudinary_images_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -2248,6 +2265,7 @@ export type Page = {
   __typename?: 'Page';
   action_link?: Maybe<Link>;
   action_typeConnection?: Maybe<PageActionTypeConnection>;
+  base?: Maybe<BasePage>;
   base_page?: Maybe<BasePage>;
   departmentsConnection?: Maybe<PageDepartmentsConnection>;
   page_type?: Maybe<Scalars['String']>;
@@ -2335,6 +2353,8 @@ export type PageWhere = {
   action_link_exists?: InputMaybe<Scalars['Boolean']>;
   action_type?: InputMaybe<PageActionTypeWhere>;
   action_type_exists?: InputMaybe<Scalars['Boolean']>;
+  base?: InputMaybe<BasePageWhere>;
+  base_exists?: InputMaybe<Scalars['Boolean']>;
   base_page?: InputMaybe<BasePageWhere>;
   base_page_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
@@ -2534,8 +2554,6 @@ export type PressReleaseWhere = {
 
 export type Query = {
   __typename?: 'Query';
-  Global_settings?: Maybe<GlobalSettings>;
-  all_Global_settings?: Maybe<AllGlobalSettings>;
   all_article?: Maybe<AllArticle>;
   all_asset_folder?: Maybe<AllAssetFolder>;
   all_assets?: Maybe<AllSysAsset>;
@@ -2543,9 +2561,9 @@ export type Query = {
   all_calendar_event_instance?: Maybe<AllCalendarEventInstance>;
   all_commissioner?: Maybe<AllCommissioner>;
   all_contact?: Maybe<AllContact>;
+  all_council?: Maybe<AllCouncil>;
   all_department?: Maybe<AllDepartment>;
   all_disclaimer?: Maybe<AllDisclaimer>;
-  all_event?: Maybe<AllEvent>;
   all_external_link?: Maybe<AllExternalLink>;
   all_faq?: Maybe<AllFaq>;
   all_featured_content_component?: Maybe<AllFeaturedContentComponent>;
@@ -2570,9 +2588,9 @@ export type Query = {
   calendar_event_instance?: Maybe<CalendarEventInstance>;
   commissioner?: Maybe<Commissioner>;
   contact?: Maybe<Contact>;
+  council?: Maybe<Council>;
   department?: Maybe<Department>;
   disclaimer?: Maybe<Disclaimer>;
-  event?: Maybe<Event>;
   external_link?: Maybe<ExternalLink>;
   faq?: Maybe<Faq>;
   featured_content_component?: Maybe<FeaturedContentComponent>;
@@ -2590,23 +2608,6 @@ export type Query = {
   site_alert?: Maybe<SiteAlert>;
   social_platform?: Maybe<SocialPlatform>;
   stay_safe?: Maybe<StaySafe>;
-};
-
-
-export type QueryGlobal_SettingsArgs = {
-  fallback_locale?: InputMaybe<Scalars['Boolean']>;
-  locale?: Scalars['String'];
-  uid: Scalars['String'];
-};
-
-
-export type QueryAll_Global_SettingsArgs = {
-  fallback_locale?: InputMaybe<Scalars['Boolean']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  locale?: Scalars['String'];
-  order_by?: InputMaybe<Array<InputMaybe<GlobalSettingsOrderBy>>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<GlobalSettingsWhere>;
 };
 
 
@@ -2680,6 +2681,16 @@ export type QueryAll_ContactArgs = {
 };
 
 
+export type QueryAll_CouncilArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<CouncilOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CouncilWhere>;
+};
+
+
 export type QueryAll_DepartmentArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2697,16 +2708,6 @@ export type QueryAll_DisclaimerArgs = {
   order_by?: InputMaybe<Array<InputMaybe<DisclaimerOrderBy>>>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<DisclaimerWhere>;
-};
-
-
-export type QueryAll_EventArgs = {
-  fallback_locale?: InputMaybe<Scalars['Boolean']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  locale?: Scalars['String'];
-  order_by?: InputMaybe<Array<InputMaybe<EventOrderBy>>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<EventWhere>;
 };
 
 
@@ -2929,6 +2930,13 @@ export type QueryContactArgs = {
 };
 
 
+export type QueryCouncilArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
 export type QueryDepartmentArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
@@ -2937,13 +2945,6 @@ export type QueryDepartmentArgs = {
 
 
 export type QueryDisclaimerArgs = {
-  fallback_locale?: InputMaybe<Scalars['Boolean']>;
-  locale?: Scalars['String'];
-  uid: Scalars['String'];
-};
-
-
-export type QueryEventArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
   uid: Scalars['String'];
@@ -3186,6 +3187,7 @@ export type SectionBlocksBlocksFeaturedContent = {
 export type SectionBlocksBlocksFeaturedContentBlock = {
   __typename?: 'SectionBlocksBlocksFeaturedContentBlock';
   background_imageConnection?: Maybe<SysAssetConnection>;
+  cloudinary_background?: Maybe<Scalars['JSON']>;
   custom?: Maybe<Scalars['JSON']>;
   gradient?: Maybe<SectionBlocksBlocksFeaturedContentBlockGradient>;
   referenceConnection?: Maybe<SectionBlocksBlocksFeaturedContentBlockReferenceConnection>;
@@ -3236,6 +3238,8 @@ export type SectionBlocksBlocksFeaturedContentBlockReferenceWhere = {
 export type SectionBlocksBlocksFeaturedContentBlockWhere = {
   background_image?: InputMaybe<SysAssetWhere>;
   background_image_exists?: InputMaybe<Scalars['Boolean']>;
+  cloudinary_background?: InputMaybe<Scalars['JSON']>;
+  cloudinary_background_exists?: InputMaybe<Scalars['Boolean']>;
   custom?: InputMaybe<Scalars['JSON']>;
   custom_exists?: InputMaybe<Scalars['Boolean']>;
   gradient?: InputMaybe<SectionBlocksBlocksFeaturedContentBlockGradientWhere>;
@@ -3595,10 +3599,13 @@ export type SidebarBlocksAsset = {
 
 export type SidebarBlocksAssetBlock = {
   __typename?: 'SidebarBlocksAssetBlock';
+  cloudinary_file?: Maybe<Scalars['JSON']>;
   fileConnection?: Maybe<SysAssetConnection>;
 };
 
 export type SidebarBlocksAssetBlockWhere = {
+  cloudinary_file?: InputMaybe<Scalars['JSON']>;
+  cloudinary_file_exists?: InputMaybe<Scalars['Boolean']>;
   file?: InputMaybe<SysAssetWhere>;
   file_exists?: InputMaybe<Scalars['Boolean']>;
 };
@@ -3676,6 +3683,7 @@ export type SidebarBlocksImage = {
 
 export type SidebarBlocksImageBlock = {
   __typename?: 'SidebarBlocksImageBlock';
+  cloudinary_image?: Maybe<Scalars['JSON']>;
   external_linkConnection?: Maybe<SidebarBlocksImageBlockExternalLinkConnection>;
   imageConnection?: Maybe<SysAssetConnection>;
   link?: Maybe<Link>;
@@ -3700,6 +3708,8 @@ export type SidebarBlocksImageBlockExternalLinkWhere = {
 };
 
 export type SidebarBlocksImageBlockWhere = {
+  cloudinary_image?: InputMaybe<Scalars['JSON']>;
+  cloudinary_image_exists?: InputMaybe<Scalars['Boolean']>;
   external_link?: InputMaybe<SidebarBlocksImageBlockExternalLinkWhere>;
   external_link_exists?: InputMaybe<Scalars['Boolean']>;
   image?: InputMaybe<SysAssetWhere>;

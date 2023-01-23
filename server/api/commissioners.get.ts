@@ -1,7 +1,11 @@
-import { defineNuxtModule } from '@nuxt/kit'
+import { ASTNode, print } from 'graphql'
+import { Query } from '~~/types/contentstack'
 import { gql } from 'graphql-tag'
-import { client } from './graphql'
-import { writeFile } from 'node:fs'
+
+interface IGraphqlRequest {
+  query: any
+  variables?: any
+}
 
 const query = gql`
   {
@@ -68,26 +72,46 @@ const query = gql`
   }
 `
 
-export default defineNuxtModule({
-  hooks: {
-    ready: async (_nuxt) => {
-      const { all_commissioner } = await client({
-        query,
-      })
+export default defineEventHandler(async (event) => {
+  const { all_commissioner } = await client({
+    query,
+  })
 
-      writeFile(
-        'public/commissioners.json',
-        JSON.stringify(all_commissioner?.items?.sort(sortByDistrict) || []),
-        (err) => {
-          if (err) throw err
-          console.log('Commissioner data saved!')
-        }
-      )
-    },
-  },
+  return all_commissioner?.items?.sort(sortByDistrict) ?? []
 })
 
-//
+/**
+ *
+ * @param param0
+ * @returns
+ */
+async function client({ query, variables }: IGraphqlRequest): Promise<Query> {
+  const { data } = await $fetch<{ data: Query }>(
+    `https://graphql.contentstack.com/stacks/${process.env.CONTENTSTACK_API_KEY}?environment=${process.env.CONTENTSTACK_ENVIRONMENT}`,
+    {
+      method: 'POST',
+
+      headers: {
+        'Content-Type': 'application/json',
+        access_token: process.env.CONTENTSTACK_DELIVERY_TOKEN || '',
+      },
+
+      body: JSON.stringify({
+        query: typeof query === 'string' ? query : print(query as ASTNode),
+        variables,
+      }),
+    }
+  )
+
+  return data
+}
+
+/**
+ *
+ * @param a
+ * @param b
+ * @returns
+ */
 function sortByDistrict(a: any, b: any) {
   return a.district - b.district
 }
