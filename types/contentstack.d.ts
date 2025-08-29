@@ -12,12 +12,14 @@ export type Scalars = {
   Float: number;
   DateTime: any;
   JSON: any;
+  TaxonomyJSON: any;
 };
 
 export type Address = {
   __typename?: 'Address';
   address?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
+  geolocate?: Maybe<Scalars['JSON']>;
   google_map?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['String']>;
@@ -36,6 +38,8 @@ export type AddressWhere = {
   city_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   city_ne?: InputMaybe<Scalars['String']>;
   city_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  geolocate?: InputMaybe<Scalars['JSON']>;
+  geolocate_exists?: InputMaybe<Scalars['Boolean']>;
   google_map?: InputMaybe<Scalars['String']>;
   google_map_exists?: InputMaybe<Scalars['Boolean']>;
   google_map_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -105,6 +109,12 @@ export type AllCouncil = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type AllCountyLeadership = {
+  __typename?: 'AllCountyLeadership';
+  items?: Maybe<Array<Maybe<CountyLeadership>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type AllDepartment = {
   __typename?: 'AllDepartment';
   items?: Maybe<Array<Maybe<Department>>>;
@@ -147,6 +157,12 @@ export type AllHome = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type AllHtv = {
+  __typename?: 'AllHtv';
+  items?: Maybe<Array<Maybe<Htv>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type AllIframeApp = {
   __typename?: 'AllIframeApp';
   items?: Maybe<Array<Maybe<IframeApp>>>;
@@ -159,9 +175,21 @@ export type AllImageGallery = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type AllLandingPage = {
+  __typename?: 'AllLandingPage';
+  items?: Maybe<Array<Maybe<LandingPage>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type AllLocation = {
   __typename?: 'AllLocation';
   items?: Maybe<Array<Maybe<Location>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export type AllLocationNotice = {
+  __typename?: 'AllLocationNotice';
+  items?: Maybe<Array<Maybe<LocationNotice>>>;
   total?: Maybe<Scalars['Int']>;
 };
 
@@ -171,15 +199,15 @@ export type AllPage = {
   total?: Maybe<Scalars['Int']>;
 };
 
-export type AllPressRelease = {
-  __typename?: 'AllPressRelease';
-  items?: Maybe<Array<Maybe<PressRelease>>>;
-  total?: Maybe<Scalars['Int']>;
-};
-
 export type AllRedirect = {
   __typename?: 'AllRedirect';
   items?: Maybe<Array<Maybe<Redirect>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export type AllSearch = {
+  __typename?: 'AllSearch';
+  items?: Maybe<Array<Maybe<Search>>>;
   total?: Maybe<Scalars['Int']>;
 };
 
@@ -201,6 +229,12 @@ export type AllServicenowKbArticle = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type AllSettings = {
+  __typename?: 'AllSettings';
+  items?: Maybe<Array<Maybe<Settings>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type AllSiteAlert = {
   __typename?: 'AllSiteAlert';
   items?: Maybe<Array<Maybe<SiteAlert>>>;
@@ -210,6 +244,12 @@ export type AllSiteAlert = {
 export type AllSocialPlatform = {
   __typename?: 'AllSocialPlatform';
   items?: Maybe<Array<Maybe<SocialPlatform>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
+export type AllSolidWasteItem = {
+  __typename?: 'AllSolidWasteItem';
+  items?: Maybe<Array<Maybe<SolidWasteItem>>>;
   total?: Maybe<Scalars['Int']>;
 };
 
@@ -228,12 +268,13 @@ export type AllSysAsset = {
 export type Article = {
   __typename?: 'Article';
   article_categories?: Maybe<ArticleCategories>;
+  article_type?: Maybe<Scalars['String']>;
   base?: Maybe<BasePage>;
   departmentsConnection?: Maybe<ArticleDepartmentsConnection>;
   evergreen?: Maybe<Scalars['Boolean']>;
-  posted_date?: Maybe<Scalars['DateTime']>;
   sidebar?: Maybe<Sidebar>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -242,6 +283,7 @@ export type Article = {
 export type ArticleDepartmentsConnectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefArticleDepartmentsWhere>;
 };
 
 export type ArticleCategories = {
@@ -282,11 +324,56 @@ export enum ArticleOrderBy {
   UpdatedAtDesc = 'updated_at_DESC'
 }
 
+export type ArticleTaxonomyWhere = {
+  department?: InputMaybe<ArticleTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ArticleTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<ArticleTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<ArticleTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<ArticleTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<ArticleTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ArticleTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ArticleTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ArticleTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ArticleTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type ArticleWhere = {
   AND?: InputMaybe<Array<InputMaybe<ArticleWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<ArticleWhere>>>;
   article_categories?: InputMaybe<ArticleCategoriesWhere>;
   article_categories_exists?: InputMaybe<Scalars['Boolean']>;
+  article_type?: InputMaybe<Scalars['String']>;
+  article_type_exists?: InputMaybe<Scalars['Boolean']>;
+  article_type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  article_type_ne?: InputMaybe<Scalars['String']>;
+  article_type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   base?: InputMaybe<BasePageWhere>;
   base_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
@@ -297,6 +384,10 @@ export type ArticleWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   departments?: InputMaybe<ArticleDepartmentsWhere>;
   departments_count?: InputMaybe<Scalars['Int']>;
   departments_exists?: InputMaybe<Scalars['Boolean']>;
@@ -308,19 +399,13 @@ export type ArticleWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  posted_date?: InputMaybe<Scalars['DateTime']>;
-  posted_date_exists?: InputMaybe<Scalars['Boolean']>;
-  posted_date_gt?: InputMaybe<Scalars['DateTime']>;
-  posted_date_gte?: InputMaybe<Scalars['DateTime']>;
-  posted_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  posted_date_lt?: InputMaybe<Scalars['DateTime']>;
-  posted_date_lte?: InputMaybe<Scalars['DateTime']>;
-  posted_date_ne?: InputMaybe<Scalars['DateTime']>;
-  posted_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   sidebar?: InputMaybe<SidebarWhere>;
   sidebar_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<ArticleTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -339,19 +424,33 @@ export type ArticleWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type AssetFolder = {
   __typename?: 'AssetFolder';
-  folder?: Maybe<Scalars['JSON']>;
+  fileConnection?: Maybe<SysAssetConnection>;
+  sort_by?: Maybe<Scalars['String']>;
+  sort_order?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
-  uni?: Maybe<UniformComposition>;
 };
 
 export enum AssetFolderOrderBy {
@@ -360,6 +459,46 @@ export enum AssetFolderOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type AssetFolderTaxonomyWhere = {
+  department?: InputMaybe<AssetFolderTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type AssetFolderTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<AssetFolderTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<AssetFolderTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<AssetFolderTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<AssetFolderTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type AssetFolderTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type AssetFolderTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type AssetFolderTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type AssetFolderTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type AssetFolderWhere = {
   AND?: InputMaybe<Array<InputMaybe<AssetFolderWhere>>>;
@@ -372,15 +511,32 @@ export type AssetFolderWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  folder?: InputMaybe<Scalars['JSON']>;
-  folder_exists?: InputMaybe<Scalars['Boolean']>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  file?: InputMaybe<SysAssetWhere>;
+  file_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  sort_by?: InputMaybe<Scalars['String']>;
+  sort_by_exists?: InputMaybe<Scalars['Boolean']>;
+  sort_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sort_by_ne?: InputMaybe<Scalars['String']>;
+  sort_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sort_order?: InputMaybe<Scalars['String']>;
+  sort_order_exists?: InputMaybe<Scalars['Boolean']>;
+  sort_order_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sort_order_ne?: InputMaybe<Scalars['String']>;
+  sort_order_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<AssetFolderTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -391,8 +547,6 @@ export type AssetFolderWhere = {
   uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   uid_ne?: InputMaybe<Scalars['String']>;
   uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uni?: InputMaybe<UniformCompositionWhere>;
-  uni_exists?: InputMaybe<Scalars['Boolean']>;
   updated_at?: InputMaybe<Scalars['DateTime']>;
   updated_at_gt?: InputMaybe<Scalars['DateTime']>;
   updated_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -401,14 +555,28 @@ export type AssetFolderWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type BasePage = {
   __typename?: 'BasePage';
-  base_imageConnection?: Maybe<SysAssetConnection>;
   body?: Maybe<BasePageBody>;
   image?: Maybe<Scalars['JSON']>;
+  lang?: Maybe<Scalars['String']>;
   navigation?: Maybe<BasePageNavigation>;
+  posted_date?: Maybe<Scalars['DateTime']>;
+  robots_noindex?: Maybe<Scalars['Boolean']>;
   short_description?: Maybe<Scalars['String']>;
   show_table_of_contents?: Maybe<Scalars['Boolean']>;
   sitecore_guid?: Maybe<Scalars['String']>;
@@ -417,7 +585,7 @@ export type BasePage = {
 
 export type BasePageBody = {
   __typename?: 'BasePageBody';
-  embedded_itemsConnection?: Maybe<BasePageBodyConnection>;
+  embedded_itemsConnection?: Maybe<BasePageBodyEmbeddedItemsConnection>;
   json?: Maybe<Scalars['JSON']>;
 };
 
@@ -427,57 +595,64 @@ export type BasePageBodyEmbedded_ItemsConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
 };
 
-export type BasePageBodyConnection = {
-  __typename?: 'BasePageBodyConnection';
-  edges?: Maybe<Array<Maybe<BasePageBodyEdge>>>;
+export type BasePageBodyEmbeddedItemsConnection = {
+  __typename?: 'BasePageBodyEmbeddedItemsConnection';
+  edges?: Maybe<Array<Maybe<BasePageBodyEmbeddedItemsEdge>>>;
   totalCount?: Maybe<Scalars['Int']>;
 };
 
-export type BasePageBodyEdge = {
-  __typename?: 'BasePageBodyEdge';
-  node?: Maybe<BasePageBodyNode>;
+export type BasePageBodyEmbeddedItemsEdge = {
+  __typename?: 'BasePageBodyEmbeddedItemsEdge';
+  node?: Maybe<BasePageBodyEmbeddedItemsNode>;
 };
 
-export type BasePageBodyNode = Article | AssetFolder | Department | Disclaimer | ExternalLink | Faq | IframeApp | ImageGallery | Location | Page | SysAsset;
+export type BasePageBodyEmbeddedItemsNode = Article | AssetFolder | Contact | Council | Department | Disclaimer | ExternalLink | Faq | IframeApp | ImageGallery | Location | Page | SysAsset;
 
 export type BasePageNavigation = {
   __typename?: 'BasePageNavigation';
+  hide_in_navigation?: Maybe<Scalars['Boolean']>;
+  hide_in_search_results?: Maybe<Scalars['Boolean']>;
   navigation_title?: Maybe<Scalars['String']>;
-  show_children?: Maybe<Scalars['Boolean']>;
-  show_in_breadcrumbs?: Maybe<Scalars['Boolean']>;
-  show_in_navigation?: Maybe<Scalars['Boolean']>;
-  show_in_search_results?: Maybe<Scalars['Boolean']>;
 };
 
 export type BasePageNavigationWhere = {
+  hide_in_navigation?: InputMaybe<Scalars['Boolean']>;
+  hide_in_navigation_exists?: InputMaybe<Scalars['Boolean']>;
+  hide_in_navigation_ne?: InputMaybe<Scalars['Boolean']>;
+  hide_in_search_results?: InputMaybe<Scalars['Boolean']>;
+  hide_in_search_results_exists?: InputMaybe<Scalars['Boolean']>;
+  hide_in_search_results_ne?: InputMaybe<Scalars['Boolean']>;
   navigation_title?: InputMaybe<Scalars['String']>;
   navigation_title_exists?: InputMaybe<Scalars['Boolean']>;
   navigation_title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   navigation_title_ne?: InputMaybe<Scalars['String']>;
   navigation_title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  show_children?: InputMaybe<Scalars['Boolean']>;
-  show_children_exists?: InputMaybe<Scalars['Boolean']>;
-  show_children_ne?: InputMaybe<Scalars['Boolean']>;
-  show_in_breadcrumbs?: InputMaybe<Scalars['Boolean']>;
-  show_in_breadcrumbs_exists?: InputMaybe<Scalars['Boolean']>;
-  show_in_breadcrumbs_ne?: InputMaybe<Scalars['Boolean']>;
-  show_in_navigation?: InputMaybe<Scalars['Boolean']>;
-  show_in_navigation_exists?: InputMaybe<Scalars['Boolean']>;
-  show_in_navigation_ne?: InputMaybe<Scalars['Boolean']>;
-  show_in_search_results?: InputMaybe<Scalars['Boolean']>;
-  show_in_search_results_exists?: InputMaybe<Scalars['Boolean']>;
-  show_in_search_results_ne?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type BasePageWhere = {
-  base_image?: InputMaybe<SysAssetWhere>;
-  base_image_exists?: InputMaybe<Scalars['Boolean']>;
   body?: InputMaybe<Scalars['JSON']>;
   body_exists?: InputMaybe<Scalars['Boolean']>;
   image?: InputMaybe<Scalars['JSON']>;
   image_exists?: InputMaybe<Scalars['Boolean']>;
+  lang?: InputMaybe<Scalars['String']>;
+  lang_exists?: InputMaybe<Scalars['Boolean']>;
+  lang_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lang_ne?: InputMaybe<Scalars['String']>;
+  lang_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   navigation?: InputMaybe<BasePageNavigationWhere>;
   navigation_exists?: InputMaybe<Scalars['Boolean']>;
+  posted_date?: InputMaybe<Scalars['DateTime']>;
+  posted_date_exists?: InputMaybe<Scalars['Boolean']>;
+  posted_date_gt?: InputMaybe<Scalars['DateTime']>;
+  posted_date_gte?: InputMaybe<Scalars['DateTime']>;
+  posted_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  posted_date_lt?: InputMaybe<Scalars['DateTime']>;
+  posted_date_lte?: InputMaybe<Scalars['DateTime']>;
+  posted_date_ne?: InputMaybe<Scalars['DateTime']>;
+  posted_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  robots_noindex?: InputMaybe<Scalars['Boolean']>;
+  robots_noindex_exists?: InputMaybe<Scalars['Boolean']>;
+  robots_noindex_ne?: InputMaybe<Scalars['Boolean']>;
   short_description?: InputMaybe<Scalars['String']>;
   short_description_exists?: InputMaybe<Scalars['Boolean']>;
   short_description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -499,20 +674,28 @@ export type CalendarEvent = {
   __typename?: 'CalendarEvent';
   base?: Maybe<BasePage>;
   calendar?: Maybe<Scalars['String']>;
-  locationConnection?: Maybe<CalendarEventLocationConnection>;
+  default_event_browser_view?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
 export type CalendarEventInstance = {
   __typename?: 'CalendarEventInstance';
-  canceled?: Maybe<Scalars['Boolean']>;
-  end_time?: Maybe<Scalars['DateTime']>;
+  all_day?: Maybe<Scalars['Boolean']>;
+  cancelled?: Maybe<Scalars['Boolean']>;
+  end_date?: Maybe<Scalars['DateTime']>;
   eventConnection?: Maybe<CalendarEventInstanceEventConnection>;
-  start_time?: Maybe<Scalars['DateTime']>;
+  generate_url_slug?: Maybe<Scalars['JSON']>;
+  link?: Maybe<Link>;
+  locationConnection?: Maybe<CalendarEventInstanceLocationConnection>;
+  location_note?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  start_date?: Maybe<Scalars['DateTime']>;
   system?: Maybe<EntrySystemField>;
   title?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
@@ -534,6 +717,24 @@ export type CalendarEventInstanceEventWhere = {
   calendar_event?: InputMaybe<CalendarEventWhere>;
 };
 
+export type CalendarEventInstanceLocationConnection = {
+  __typename?: 'CalendarEventInstanceLocationConnection';
+  edges?: Maybe<Array<Maybe<CalendarEventInstanceLocationEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type CalendarEventInstanceLocationEdge = {
+  __typename?: 'CalendarEventInstanceLocationEdge';
+  node?: Maybe<CalendarEventInstanceLocationNode>;
+};
+
+export type CalendarEventInstanceLocationNode = Location;
+
+export type CalendarEventInstanceLocationWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  location?: InputMaybe<LocationWhere>;
+};
+
 export enum CalendarEventInstanceOrderBy {
   CreatedAtAsc = 'created_at_ASC',
   CreatedAtDesc = 'created_at_DESC',
@@ -544,9 +745,12 @@ export enum CalendarEventInstanceOrderBy {
 export type CalendarEventInstanceWhere = {
   AND?: InputMaybe<Array<InputMaybe<CalendarEventInstanceWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<CalendarEventInstanceWhere>>>;
-  canceled?: InputMaybe<Scalars['Boolean']>;
-  canceled_exists?: InputMaybe<Scalars['Boolean']>;
-  canceled_ne?: InputMaybe<Scalars['Boolean']>;
+  all_day?: InputMaybe<Scalars['Boolean']>;
+  all_day_exists?: InputMaybe<Scalars['Boolean']>;
+  all_day_ne?: InputMaybe<Scalars['Boolean']>;
+  cancelled?: InputMaybe<Scalars['Boolean']>;
+  cancelled_exists?: InputMaybe<Scalars['Boolean']>;
+  cancelled_ne?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -555,31 +759,52 @@ export type CalendarEventInstanceWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  end_time?: InputMaybe<Scalars['DateTime']>;
-  end_time_exists?: InputMaybe<Scalars['Boolean']>;
-  end_time_gt?: InputMaybe<Scalars['DateTime']>;
-  end_time_gte?: InputMaybe<Scalars['DateTime']>;
-  end_time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  end_time_lt?: InputMaybe<Scalars['DateTime']>;
-  end_time_lte?: InputMaybe<Scalars['DateTime']>;
-  end_time_ne?: InputMaybe<Scalars['DateTime']>;
-  end_time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  end_date?: InputMaybe<Scalars['DateTime']>;
+  end_date_exists?: InputMaybe<Scalars['Boolean']>;
+  end_date_gt?: InputMaybe<Scalars['DateTime']>;
+  end_date_gte?: InputMaybe<Scalars['DateTime']>;
+  end_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  end_date_lt?: InputMaybe<Scalars['DateTime']>;
+  end_date_lte?: InputMaybe<Scalars['DateTime']>;
+  end_date_ne?: InputMaybe<Scalars['DateTime']>;
+  end_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   event?: InputMaybe<CalendarEventInstanceEventWhere>;
   event_exists?: InputMaybe<Scalars['Boolean']>;
+  generate_url_slug?: InputMaybe<Scalars['JSON']>;
+  generate_url_slug_exists?: InputMaybe<Scalars['Boolean']>;
+  link?: InputMaybe<LinkWhere>;
+  link_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  start_time?: InputMaybe<Scalars['DateTime']>;
-  start_time_exists?: InputMaybe<Scalars['Boolean']>;
-  start_time_gt?: InputMaybe<Scalars['DateTime']>;
-  start_time_gte?: InputMaybe<Scalars['DateTime']>;
-  start_time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  start_time_lt?: InputMaybe<Scalars['DateTime']>;
-  start_time_lte?: InputMaybe<Scalars['DateTime']>;
-  start_time_ne?: InputMaybe<Scalars['DateTime']>;
-  start_time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  location?: InputMaybe<CalendarEventInstanceLocationWhere>;
+  location_exists?: InputMaybe<Scalars['Boolean']>;
+  location_note?: InputMaybe<Scalars['String']>;
+  location_note_exists?: InputMaybe<Scalars['Boolean']>;
+  location_note_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location_note_ne?: InputMaybe<Scalars['String']>;
+  location_note_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  notes?: InputMaybe<Scalars['String']>;
+  notes_exists?: InputMaybe<Scalars['Boolean']>;
+  notes_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  notes_ne?: InputMaybe<Scalars['String']>;
+  notes_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  start_date?: InputMaybe<Scalars['DateTime']>;
+  start_date_exists?: InputMaybe<Scalars['Boolean']>;
+  start_date_gt?: InputMaybe<Scalars['DateTime']>;
+  start_date_gte?: InputMaybe<Scalars['DateTime']>;
+  start_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  start_date_lt?: InputMaybe<Scalars['DateTime']>;
+  start_date_lte?: InputMaybe<Scalars['DateTime']>;
+  start_date_ne?: InputMaybe<Scalars['DateTime']>;
+  start_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -587,6 +812,11 @@ export type CalendarEventInstanceWhere = {
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_ne?: InputMaybe<Scalars['String']>;
   title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type?: InputMaybe<Scalars['String']>;
+  type_exists?: InputMaybe<Scalars['Boolean']>;
+  type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type_ne?: InputMaybe<Scalars['String']>;
+  type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   uid?: InputMaybe<Scalars['String']>;
   uid_exists?: InputMaybe<Scalars['Boolean']>;
   uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -600,29 +830,23 @@ export type CalendarEventInstanceWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type CalendarEventLocationConnection = {
-  __typename?: 'CalendarEventLocationConnection';
-  edges?: Maybe<Array<Maybe<CalendarEventLocationEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-export type CalendarEventLocationEdge = {
-  __typename?: 'CalendarEventLocationEdge';
-  node?: Maybe<CalendarEventLocationNode>;
-};
-
-export type CalendarEventLocationNode = Location;
-
-export type CalendarEventLocationWhere = {
-  MATCH?: InputMaybe<EvalReferenceEnum>;
-  location?: InputMaybe<LocationWhere>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export enum CalendarEventOrderBy {
@@ -631,6 +855,46 @@ export enum CalendarEventOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type CalendarEventTaxonomyWhere = {
+  department?: InputMaybe<CalendarEventTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CalendarEventTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<CalendarEventTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<CalendarEventTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<CalendarEventTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<CalendarEventTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CalendarEventTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type CalendarEventTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type CalendarEventTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type CalendarEventTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type CalendarEventWhere = {
   AND?: InputMaybe<Array<InputMaybe<CalendarEventWhere>>>;
@@ -650,15 +914,25 @@ export type CalendarEventWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  default_event_browser_view?: InputMaybe<Scalars['String']>;
+  default_event_browser_view_exists?: InputMaybe<Scalars['Boolean']>;
+  default_event_browser_view_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  default_event_browser_view_ne?: InputMaybe<Scalars['String']>;
+  default_event_browser_view_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<CalendarEventLocationWhere>;
-  location_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<CalendarEventTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -677,11 +951,23 @@ export type CalendarEventWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Commissioner = {
@@ -703,6 +989,7 @@ export type Commissioner = {
 export type CommissionerAidesConnectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefCommissionerAidesWhere>;
 };
 
 export type CommissionerAidesConnection = {
@@ -771,6 +1058,10 @@ export type CommissionerWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   designations?: InputMaybe<Scalars['String']>;
   designations_exists?: InputMaybe<Scalars['Boolean']>;
   designations_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -795,6 +1086,7 @@ export type CommissionerWhere = {
   party_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   party_ne?: InputMaybe<Scalars['String']>;
   party_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -815,23 +1107,39 @@ export type CommissionerWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Contact = {
   __typename?: 'Contact';
   admin_assistantConnection?: Maybe<ContactAdminAssistantConnection>;
-  cloudinary_headshot?: Maybe<Scalars['JSON']>;
+  cs_headshotConnection?: Maybe<SysAssetConnection>;
   emails?: Maybe<Array<Maybe<ContactEmails>>>;
-  headshotConnection?: Maybe<SysAssetConnection>;
+  full_name?: Maybe<Scalars['String']>;
+  headshot?: Maybe<Scalars['JSON']>;
   job_title?: Maybe<Scalars['String']>;
   locationConnection?: Maybe<ContactLocationConnection>;
+  location_note?: Maybe<Scalars['String']>;
   phones?: Maybe<Array<Maybe<ContactPhones>>>;
+  sitecore_guid?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -839,6 +1147,7 @@ export type Contact = {
 export type ContactAdmin_AssistantConnectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefContactAdminAssistantWhere>;
 };
 
 export type ContactAdminAssistantConnection = {
@@ -905,11 +1214,21 @@ export enum ContactOrderBy {
 
 export type ContactPhones = {
   __typename?: 'ContactPhones';
+  extension?: Maybe<Scalars['Float']>;
   number?: Maybe<Scalars['Float']>;
   type?: Maybe<Scalars['String']>;
 };
 
 export type ContactPhonesWhere = {
+  extension?: InputMaybe<Scalars['Float']>;
+  extension_exists?: InputMaybe<Scalars['Boolean']>;
+  extension_gt?: InputMaybe<Scalars['Float']>;
+  extension_gte?: InputMaybe<Scalars['Float']>;
+  extension_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  extension_lt?: InputMaybe<Scalars['Float']>;
+  extension_lte?: InputMaybe<Scalars['Float']>;
+  extension_ne?: InputMaybe<Scalars['Float']>;
+  extension_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   number?: InputMaybe<Scalars['Float']>;
   number_exists?: InputMaybe<Scalars['Boolean']>;
   number_gt?: InputMaybe<Scalars['Float']>;
@@ -926,14 +1245,52 @@ export type ContactPhonesWhere = {
   type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type ContactTaxonomyWhere = {
+  department?: InputMaybe<ContactTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ContactTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<ContactTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<ContactTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<ContactTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<ContactTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ContactTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ContactTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ContactTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ContactTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type ContactWhere = {
   AND?: InputMaybe<Array<InputMaybe<ContactWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<ContactWhere>>>;
   admin_assistant?: InputMaybe<ContactAdminAssistantWhere>;
   admin_assistant_count?: InputMaybe<Scalars['Int']>;
   admin_assistant_exists?: InputMaybe<Scalars['Boolean']>;
-  cloudinary_headshot?: InputMaybe<Scalars['JSON']>;
-  cloudinary_headshot_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -942,9 +1299,20 @@ export type ContactWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  cs_headshot?: InputMaybe<SysAssetWhere>;
+  cs_headshot_exists?: InputMaybe<Scalars['Boolean']>;
   emails?: InputMaybe<ContactEmailsWhere>;
   emails_exists?: InputMaybe<Scalars['Boolean']>;
-  headshot?: InputMaybe<SysAssetWhere>;
+  full_name?: InputMaybe<Scalars['String']>;
+  full_name_exists?: InputMaybe<Scalars['Boolean']>;
+  full_name_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  full_name_ne?: InputMaybe<Scalars['String']>;
+  full_name_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  headshot?: InputMaybe<Scalars['JSON']>;
   headshot_exists?: InputMaybe<Scalars['Boolean']>;
   job_title?: InputMaybe<Scalars['String']>;
   job_title_exists?: InputMaybe<Scalars['Boolean']>;
@@ -958,10 +1326,23 @@ export type ContactWhere = {
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   location?: InputMaybe<ContactLocationWhere>;
   location_exists?: InputMaybe<Scalars['Boolean']>;
+  location_note?: InputMaybe<Scalars['String']>;
+  location_note_exists?: InputMaybe<Scalars['Boolean']>;
+  location_note_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location_note_ne?: InputMaybe<Scalars['String']>;
+  location_note_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   phones?: InputMaybe<ContactPhonesWhere>;
   phones_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  sitecore_guid?: InputMaybe<Scalars['String']>;
+  sitecore_guid_exists?: InputMaybe<Scalars['Boolean']>;
+  sitecore_guid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sitecore_guid_ne?: InputMaybe<Scalars['String']>;
+  sitecore_guid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<ContactTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -980,38 +1361,86 @@ export type ContactWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Council = {
   __typename?: 'Council';
   base?: Maybe<BasePage>;
-  eventConnection?: Maybe<CouncilEventConnection>;
+  contactConnection?: Maybe<CouncilContactConnection>;
+  default_calendar_view?: Maybe<Scalars['String']>;
+  eventsConnection?: Maybe<CouncilEventsConnection>;
   members?: Maybe<Array<Maybe<CouncilMembers>>>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
-export type CouncilEventConnection = {
-  __typename?: 'CouncilEventConnection';
-  edges?: Maybe<Array<Maybe<CouncilEventEdge>>>;
+
+export type CouncilContactConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefCouncilContactWhere>;
+};
+
+
+export type CouncilEventsConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefCouncilEventsWhere>;
+};
+
+export type CouncilContactConnection = {
+  __typename?: 'CouncilContactConnection';
+  edges?: Maybe<Array<Maybe<CouncilContactEdge>>>;
   totalCount?: Maybe<Scalars['Int']>;
 };
 
-export type CouncilEventEdge = {
-  __typename?: 'CouncilEventEdge';
-  node?: Maybe<CouncilEventNode>;
+export type CouncilContactEdge = {
+  __typename?: 'CouncilContactEdge';
+  node?: Maybe<CouncilContactNode>;
 };
 
-export type CouncilEventNode = CalendarEvent;
+export type CouncilContactNode = Contact;
 
-export type CouncilEventWhere = {
+export type CouncilContactWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  contact?: InputMaybe<ContactWhere>;
+};
+
+export type CouncilEventsConnection = {
+  __typename?: 'CouncilEventsConnection';
+  edges?: Maybe<Array<Maybe<CouncilEventsEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type CouncilEventsEdge = {
+  __typename?: 'CouncilEventsEdge';
+  node?: Maybe<CouncilEventsNode>;
+};
+
+export type CouncilEventsNode = CalendarEvent;
+
+export type CouncilEventsWhere = {
   MATCH?: InputMaybe<EvalReferenceEnum>;
   calendar_event?: InputMaybe<CalendarEventWhere>;
 };
 
 export type CouncilMembers = {
   __typename?: 'CouncilMembers';
+  category?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['DateTime']>;
   name?: Maybe<Scalars['String']>;
   position?: Maybe<Scalars['String']>;
@@ -1020,6 +1449,11 @@ export type CouncilMembers = {
 };
 
 export type CouncilMembersWhere = {
+  category?: InputMaybe<Scalars['String']>;
+  category_exists?: InputMaybe<Scalars['Boolean']>;
+  category_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  category_ne?: InputMaybe<Scalars['String']>;
+  category_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   end_date?: InputMaybe<Scalars['DateTime']>;
   end_date_exists?: InputMaybe<Scalars['Boolean']>;
   end_date_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1060,11 +1494,54 @@ export enum CouncilOrderBy {
   UpdatedAtDesc = 'updated_at_DESC'
 }
 
+export type CouncilTaxonomyWhere = {
+  department?: InputMaybe<CouncilTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CouncilTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<CouncilTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<CouncilTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<CouncilTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<CouncilTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CouncilTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type CouncilTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type CouncilTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type CouncilTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type CouncilWhere = {
   AND?: InputMaybe<Array<InputMaybe<CouncilWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<CouncilWhere>>>;
   base?: InputMaybe<BasePageWhere>;
   base_exists?: InputMaybe<Scalars['Boolean']>;
+  contact?: InputMaybe<CouncilContactWhere>;
+  contact_count?: InputMaybe<Scalars['Int']>;
+  contact_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -1073,8 +1550,18 @@ export type CouncilWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  event?: InputMaybe<CouncilEventWhere>;
-  event_exists?: InputMaybe<Scalars['Boolean']>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  default_calendar_view?: InputMaybe<Scalars['String']>;
+  default_calendar_view_exists?: InputMaybe<Scalars['Boolean']>;
+  default_calendar_view_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  default_calendar_view_ne?: InputMaybe<Scalars['String']>;
+  default_calendar_view_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  events?: InputMaybe<CouncilEventsWhere>;
+  events_count?: InputMaybe<Scalars['Int']>;
+  events_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1082,6 +1569,127 @@ export type CouncilWhere = {
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   members?: InputMaybe<CouncilMembersWhere>;
   members_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<CouncilTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type CountyLeadership = {
+  __typename?: 'CountyLeadership';
+  sections?: Maybe<Array<Maybe<CountyLeadershipSections>>>;
+  system?: Maybe<EntrySystemField>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export enum CountyLeadershipOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type CountyLeadershipSections = {
+  __typename?: 'CountyLeadershipSections';
+  leadersConnection?: Maybe<CountyLeadershipSectionsLeadersConnection>;
+  title?: Maybe<Scalars['String']>;
+};
+
+
+export type CountyLeadershipSectionsLeadersConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefCountyLeadershipSectionsLeadersWhere>;
+};
+
+export type CountyLeadershipSectionsLeadersConnection = {
+  __typename?: 'CountyLeadershipSectionsLeadersConnection';
+  edges?: Maybe<Array<Maybe<CountyLeadershipSectionsLeadersEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type CountyLeadershipSectionsLeadersEdge = {
+  __typename?: 'CountyLeadershipSectionsLeadersEdge';
+  node?: Maybe<CountyLeadershipSectionsLeadersNode>;
+};
+
+export type CountyLeadershipSectionsLeadersNode = Contact;
+
+export type CountyLeadershipSectionsLeadersWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  contact?: InputMaybe<ContactWhere>;
+};
+
+export type CountyLeadershipSectionsWhere = {
+  leaders?: InputMaybe<CountyLeadershipSectionsLeadersWhere>;
+  leaders_count?: InputMaybe<Scalars['Int']>;
+  leaders_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CountyLeadershipWhere = {
+  AND?: InputMaybe<Array<InputMaybe<CountyLeadershipWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<CountyLeadershipWhere>>>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  sections?: InputMaybe<CountyLeadershipSectionsWhere>;
+  sections_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -1102,11 +1710,18 @@ export type CouncilWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  url?: InputMaybe<Scalars['String']>;
-  url_exists?: InputMaybe<Scalars['Boolean']>;
-  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  url_ne?: InputMaybe<Scalars['String']>;
-  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Department = {
@@ -1115,13 +1730,19 @@ export type Department = {
   contactConnection?: Maybe<DepartmentContactConnection>;
   icon?: Maybe<Scalars['String']>;
   manager_contactConnection?: Maybe<DepartmentManagerContactConnection>;
-  post_container_blocks?: Maybe<SectionBlocks>;
-  pre_container_blocks?: Maybe<SectionBlocks>;
   sidebar?: Maybe<Sidebar>;
   site_sections?: Maybe<Array<Maybe<Scalars['String']>>>;
   system?: Maybe<EntrySystemField>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+  visual_builder?: Maybe<VisualBuilder>;
+};
+
+
+export type DepartmentManager_ContactConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefDepartmentManagerContactWhere>;
 };
 
 export type DepartmentContactConnection = {
@@ -1182,6 +1803,10 @@ export type DepartmentWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   icon?: InputMaybe<Scalars['String']>;
   icon_exists?: InputMaybe<Scalars['Boolean']>;
   icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1193,11 +1818,9 @@ export type DepartmentWhere = {
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   manager_contact?: InputMaybe<DepartmentManagerContactWhere>;
+  manager_contact_count?: InputMaybe<Scalars['Int']>;
   manager_contact_exists?: InputMaybe<Scalars['Boolean']>;
-  post_container_blocks?: InputMaybe<SectionBlocksWhere>;
-  post_container_blocks_exists?: InputMaybe<Scalars['Boolean']>;
-  pre_container_blocks?: InputMaybe<SectionBlocksWhere>;
-  pre_container_blocks_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   sidebar?: InputMaybe<SidebarWhere>;
   sidebar_exists?: InputMaybe<Scalars['Boolean']>;
   site_sections?: InputMaybe<Scalars['String']>;
@@ -1225,11 +1848,25 @@ export type DepartmentWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  visual_builder?: InputMaybe<VisualBuilderWhere>;
+  visual_builder_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Disclaimer = {
@@ -1238,8 +1875,12 @@ export type Disclaimer = {
   buttons?: Maybe<Array<Maybe<DisclaimerButtons>>>;
   color?: Maybe<Scalars['String']>;
   expires_at?: Maybe<Scalars['DateTime']>;
+  header?: Maybe<Scalars['String']>;
   icon?: Maybe<Scalars['String']>;
+  nosnippet?: Maybe<Scalars['Boolean']>;
+  plain?: Maybe<Scalars['Boolean']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -1272,6 +1913,46 @@ export enum DisclaimerOrderBy {
   UpdatedAtDesc = 'updated_at_DESC'
 }
 
+export type DisclaimerTaxonomyWhere = {
+  department?: InputMaybe<DisclaimerTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type DisclaimerTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<DisclaimerTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<DisclaimerTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<DisclaimerTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<DisclaimerTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type DisclaimerTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type DisclaimerTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type DisclaimerTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type DisclaimerTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type DisclaimerWhere = {
   AND?: InputMaybe<Array<InputMaybe<DisclaimerWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<DisclaimerWhere>>>;
@@ -1295,6 +1976,10 @@ export type DisclaimerWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   expires_at?: InputMaybe<Scalars['DateTime']>;
   expires_at_exists?: InputMaybe<Scalars['Boolean']>;
   expires_at_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1304,6 +1989,11 @@ export type DisclaimerWhere = {
   expires_at_lte?: InputMaybe<Scalars['DateTime']>;
   expires_at_ne?: InputMaybe<Scalars['DateTime']>;
   expires_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  header?: InputMaybe<Scalars['String']>;
+  header_exists?: InputMaybe<Scalars['Boolean']>;
+  header_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  header_ne?: InputMaybe<Scalars['String']>;
+  header_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   icon?: InputMaybe<Scalars['String']>;
   icon_exists?: InputMaybe<Scalars['Boolean']>;
   icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1314,8 +2004,17 @@ export type DisclaimerWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  nosnippet?: InputMaybe<Scalars['Boolean']>;
+  nosnippet_exists?: InputMaybe<Scalars['Boolean']>;
+  nosnippet_ne?: InputMaybe<Scalars['Boolean']>;
+  plain?: InputMaybe<Scalars['Boolean']>;
+  plain_exists?: InputMaybe<Scalars['Boolean']>;
+  plain_ne?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<DisclaimerTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1334,6 +2033,18 @@ export type DisclaimerWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type EntrySystemField = {
@@ -1367,6 +2078,7 @@ export type ExternalLink = {
   __typename?: 'ExternalLink';
   link?: Maybe<Link>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -1376,6 +2088,46 @@ export enum ExternalLinkOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type ExternalLinkTaxonomyWhere = {
+  department?: InputMaybe<ExternalLinkTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ExternalLinkTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<ExternalLinkTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<ExternalLinkTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<ExternalLinkTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<ExternalLinkTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ExternalLinkTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ExternalLinkTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ExternalLinkTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ExternalLinkTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type ExternalLinkWhere = {
   AND?: InputMaybe<Array<InputMaybe<ExternalLinkWhere>>>;
@@ -1388,6 +2140,10 @@ export type ExternalLinkWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   link?: InputMaybe<LinkWhere>;
   link_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
@@ -1395,8 +2151,11 @@ export type ExternalLinkWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<ExternalLinkTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1415,12 +2174,25 @@ export type ExternalLinkWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Faq = {
   __typename?: 'Faq';
   categories?: Maybe<Array<Maybe<FaqCategories>>>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -1467,6 +2239,46 @@ export enum FaqOrderBy {
   UpdatedAtDesc = 'updated_at_DESC'
 }
 
+export type FaqTaxonomyWhere = {
+  department?: InputMaybe<FaqTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type FaqTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<FaqTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<FaqTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<FaqTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<FaqTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type FaqTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type FaqTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type FaqTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type FaqTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type FaqWhere = {
   AND?: InputMaybe<Array<InputMaybe<FaqWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<FaqWhere>>>;
@@ -1480,13 +2292,20 @@ export type FaqWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<FaqTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1505,11 +2324,23 @@ export type FaqWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type FeaturedContentComponent = {
@@ -1522,6 +2353,7 @@ export type FeaturedContentComponent = {
   link?: Maybe<Link>;
   subtitle?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -1531,6 +2363,46 @@ export enum FeaturedContentComponentOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type FeaturedContentComponentTaxonomyWhere = {
+  department?: InputMaybe<FeaturedContentComponentTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type FeaturedContentComponentTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<FeaturedContentComponentTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<FeaturedContentComponentTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<FeaturedContentComponentTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<FeaturedContentComponentTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type FeaturedContentComponentTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type FeaturedContentComponentTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type FeaturedContentComponentTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type FeaturedContentComponentTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type FeaturedContentComponentWhere = {
   AND?: InputMaybe<Array<InputMaybe<FeaturedContentComponentWhere>>>;
@@ -1555,6 +2427,10 @@ export type FeaturedContentComponentWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   icon?: InputMaybe<Scalars['String']>;
   icon_exists?: InputMaybe<Scalars['Boolean']>;
   icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1569,6 +2445,7 @@ export type FeaturedContentComponentWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   subtitle?: InputMaybe<Scalars['String']>;
   subtitle_exists?: InputMaybe<Scalars['Boolean']>;
   subtitle_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1576,6 +2453,8 @@ export type FeaturedContentComponentWhere = {
   subtitle_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<FeaturedContentComponentTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1594,6 +2473,37 @@ export type FeaturedContentComponentWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type GlobalLocation = {
+  __typename?: 'GlobalLocation';
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type GlobalLocationWhere = {
+  amenities?: InputMaybe<Scalars['String']>;
+  amenities_exists?: InputMaybe<Scalars['Boolean']>;
+  amenities_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  amenities_ne?: InputMaybe<Scalars['String']>;
+  amenities_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  categories?: InputMaybe<Scalars['String']>;
+  categories_exists?: InputMaybe<Scalars['Boolean']>;
+  categories_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  categories_ne?: InputMaybe<Scalars['String']>;
+  categories_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type HikingTrail = {
@@ -1605,6 +2515,7 @@ export type HikingTrail = {
   miles?: Maybe<Scalars['Float']>;
   rating?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -1633,6 +2544,46 @@ export enum HikingTrailOrderBy {
   UpdatedAtDesc = 'updated_at_DESC'
 }
 
+export type HikingTrailTaxonomyWhere = {
+  department?: InputMaybe<HikingTrailTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type HikingTrailTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<HikingTrailTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<HikingTrailTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<HikingTrailTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<HikingTrailTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type HikingTrailTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type HikingTrailTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type HikingTrailTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type HikingTrailTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type HikingTrailWhere = {
   AND?: InputMaybe<Array<InputMaybe<HikingTrailWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<HikingTrailWhere>>>;
@@ -1649,6 +2600,10 @@ export type HikingTrailWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   hiking_spree?: InputMaybe<Scalars['Boolean']>;
   hiking_spree_exists?: InputMaybe<Scalars['Boolean']>;
   hiking_spree_ne?: InputMaybe<Scalars['Boolean']>;
@@ -1670,6 +2625,7 @@ export type HikingTrailWhere = {
   miles_lte?: InputMaybe<Scalars['Float']>;
   miles_ne?: InputMaybe<Scalars['Float']>;
   miles_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   rating?: InputMaybe<Scalars['String']>;
   rating_exists?: InputMaybe<Scalars['Boolean']>;
   rating_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1677,6 +2633,8 @@ export type HikingTrailWhere = {
   rating_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<HikingTrailTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1695,18 +2653,35 @@ export type HikingTrailWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Home = {
   __typename?: 'Home';
   alertConnection?: Maybe<HomeAlertConnection>;
   banner_imageConnection?: Maybe<SysAssetConnection>;
+  banner_image_cloudinary?: Maybe<Scalars['JSON']>;
   footer_linksConnection?: Maybe<HomeFooterLinksConnection>;
+  footer_links_manual?: Maybe<Array<Maybe<Link>>>;
   footer_social_linksConnection?: Maybe<HomeFooterSocialLinksConnection>;
   locationConnection?: Maybe<HomeLocationConnection>;
   logo_darkConnection?: Maybe<SysAssetConnection>;
+  logo_dark_cloudinary?: Maybe<Scalars['JSON']>;
   logo_lightConnection?: Maybe<SysAssetConnection>;
+  logo_light_cloudinary?: Maybe<Scalars['JSON']>;
   navigation?: Maybe<Array<Maybe<HomeNavigation>>>;
+  placeholder_image?: Maybe<Scalars['JSON']>;
   section_blocks?: Maybe<SectionBlocks>;
   system?: Maybe<EntrySystemField>;
   title?: Maybe<Scalars['String']>;
@@ -1717,12 +2692,14 @@ export type Home = {
 export type HomeFooter_LinksConnectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefHomeFooterLinksWhere>;
 };
 
 
 export type HomeFooter_Social_LinksConnectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefHomeFooterSocialLinksWhere>;
 };
 
 export type HomeAlertConnection = {
@@ -1856,6 +2833,8 @@ export type HomeWhere = {
   alert?: InputMaybe<HomeAlertWhere>;
   alert_exists?: InputMaybe<Scalars['Boolean']>;
   banner_image?: InputMaybe<SysAssetWhere>;
+  banner_image_cloudinary?: InputMaybe<Scalars['JSON']>;
+  banner_image_cloudinary_exists?: InputMaybe<Scalars['Boolean']>;
   banner_image_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1865,9 +2844,15 @@ export type HomeWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   footer_links?: InputMaybe<HomeFooterLinksWhere>;
   footer_links_count?: InputMaybe<Scalars['Int']>;
   footer_links_exists?: InputMaybe<Scalars['Boolean']>;
+  footer_links_manual?: InputMaybe<LinkWhere>;
+  footer_links_manual_exists?: InputMaybe<Scalars['Boolean']>;
   footer_social_links?: InputMaybe<HomeFooterSocialLinksWhere>;
   footer_social_links_count?: InputMaybe<Scalars['Int']>;
   footer_social_links_exists?: InputMaybe<Scalars['Boolean']>;
@@ -1879,11 +2864,18 @@ export type HomeWhere = {
   location?: InputMaybe<HomeLocationWhere>;
   location_exists?: InputMaybe<Scalars['Boolean']>;
   logo_dark?: InputMaybe<SysAssetWhere>;
+  logo_dark_cloudinary?: InputMaybe<Scalars['JSON']>;
+  logo_dark_cloudinary_exists?: InputMaybe<Scalars['Boolean']>;
   logo_dark_exists?: InputMaybe<Scalars['Boolean']>;
   logo_light?: InputMaybe<SysAssetWhere>;
+  logo_light_cloudinary?: InputMaybe<Scalars['JSON']>;
+  logo_light_cloudinary_exists?: InputMaybe<Scalars['Boolean']>;
   logo_light_exists?: InputMaybe<Scalars['Boolean']>;
   navigation?: InputMaybe<HomeNavigationWhere>;
   navigation_exists?: InputMaybe<Scalars['Boolean']>;
+  placeholder_image?: InputMaybe<Scalars['JSON']>;
+  placeholder_image_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   section_blocks?: InputMaybe<SectionBlocksWhere>;
   section_blocks_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1906,15 +2898,103 @@ export type HomeWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   website_feedback_url?: InputMaybe<LinkWhere>;
   website_feedback_url_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type Htv = {
+  __typename?: 'Htv';
+  live_video_id?: Maybe<Scalars['String']>;
+  system?: Maybe<EntrySystemField>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export enum HtvOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type HtvWhere = {
+  AND?: InputMaybe<Array<InputMaybe<HtvWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<HtvWhere>>>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  live_video_id?: InputMaybe<Scalars['String']>;
+  live_video_id_exists?: InputMaybe<Scalars['Boolean']>;
+  live_video_id_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  live_video_id_ne?: InputMaybe<Scalars['String']>;
+  live_video_id_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type IframeApp = {
   __typename?: 'IframeApp';
   aspect_ratio?: Maybe<Scalars['Float']>;
   container_url?: Maybe<Scalars['Boolean']>;
+  display_external_link?: Maybe<Scalars['Boolean']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -1925,6 +3005,46 @@ export enum IframeAppOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type IframeAppTaxonomyWhere = {
+  department?: InputMaybe<IframeAppTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type IframeAppTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<IframeAppTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<IframeAppTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<IframeAppTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<IframeAppTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type IframeAppTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type IframeAppTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type IframeAppTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type IframeAppTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type IframeAppWhere = {
   AND?: InputMaybe<Array<InputMaybe<IframeAppWhere>>>;
@@ -1949,13 +3069,23 @@ export type IframeAppWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  display_external_link?: InputMaybe<Scalars['Boolean']>;
+  display_external_link_exists?: InputMaybe<Scalars['Boolean']>;
+  display_external_link_ne?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<IframeAppTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1974,26 +3104,33 @@ export type IframeAppWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type ImageGallery = {
   __typename?: 'ImageGallery';
-  cloudinary_images?: Maybe<Scalars['JSON']>;
+  cycle?: Maybe<Scalars['Boolean']>;
   description?: Maybe<Scalars['String']>;
-  image_filesConnection?: Maybe<SysAssetConnection>;
+  images?: Maybe<Scalars['JSON']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
-};
-
-
-export type ImageGalleryImage_FilesConnectionArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
-  skip?: InputMaybe<Scalars['Int']>;
 };
 
 export enum ImageGalleryOrderBy {
@@ -2003,11 +3140,49 @@ export enum ImageGalleryOrderBy {
   UpdatedAtDesc = 'updated_at_DESC'
 }
 
+export type ImageGalleryTaxonomyWhere = {
+  department?: InputMaybe<ImageGalleryTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ImageGalleryTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<ImageGalleryTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<ImageGalleryTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<ImageGalleryTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<ImageGalleryTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ImageGalleryTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ImageGalleryTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ImageGalleryTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type ImageGalleryTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type ImageGalleryWhere = {
   AND?: InputMaybe<Array<InputMaybe<ImageGalleryWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<ImageGalleryWhere>>>;
-  cloudinary_images?: InputMaybe<Scalars['JSON']>;
-  cloudinary_images_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -2016,21 +3191,30 @@ export type ImageGalleryWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  cycle?: InputMaybe<Scalars['Boolean']>;
+  cycle_exists?: InputMaybe<Scalars['Boolean']>;
+  cycle_ne?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   description_exists?: InputMaybe<Scalars['Boolean']>;
   description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description_ne?: InputMaybe<Scalars['String']>;
   description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  image_files?: InputMaybe<SysAssetWhere>;
-  image_files_count?: InputMaybe<Scalars['Int']>;
-  image_files_exists?: InputMaybe<Scalars['Boolean']>;
+  images?: InputMaybe<Scalars['JSON']>;
+  images_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<ImageGalleryTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2049,6 +3233,142 @@ export type ImageGalleryWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type LandingPage = {
+  __typename?: 'LandingPage';
+  hide_header?: Maybe<Scalars['Boolean']>;
+  system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  visual_builder?: Maybe<VisualBuilder>;
+};
+
+export enum LandingPageOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type LandingPageTaxonomyWhere = {
+  department?: InputMaybe<LandingPageTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type LandingPageTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<LandingPageTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<LandingPageTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<LandingPageTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<LandingPageTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type LandingPageTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LandingPageTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LandingPageTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LandingPageTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LandingPageWhere = {
+  AND?: InputMaybe<Array<InputMaybe<LandingPageWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<LandingPageWhere>>>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  hide_header?: InputMaybe<Scalars['Boolean']>;
+  hide_header_exists?: InputMaybe<Scalars['Boolean']>;
+  hide_header_ne?: InputMaybe<Scalars['Boolean']>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<LandingPageTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  visual_builder?: InputMaybe<VisualBuilderWhere>;
+  visual_builder_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Link = {
@@ -2078,14 +3398,17 @@ export type Location = {
   base?: Maybe<BasePage>;
   blocks?: Maybe<Array<Maybe<LocationBlocks>>>;
   closed?: Maybe<Scalars['Boolean']>;
+  closure_notes?: Maybe<Array<Maybe<Scalars['String']>>>;
   contact_phone?: Maybe<Scalars['String']>;
   entrance_fees?: Maybe<Scalars['String']>;
   fees?: Maybe<Array<Maybe<Scalars['Float']>>>;
+  global_location?: Maybe<GlobalLocation>;
   hours?: Maybe<Array<Maybe<Scalars['String']>>>;
   location_categories?: Maybe<Array<Maybe<Scalars['String']>>>;
   notes?: Maybe<Scalars['String']>;
   section_blocks?: Maybe<SectionBlocks>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -2156,12 +3479,191 @@ export type LocationBlocksWhere = {
   Iframe_App_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type LocationNotice = {
+  __typename?: 'LocationNotice';
+  disclaimerConnection?: Maybe<LocationNoticeDisclaimerConnection>;
+  display_in_body?: Maybe<Scalars['Boolean']>;
+  global_location?: Maybe<GlobalLocation>;
+  system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type LocationNoticeDisclaimerConnection = {
+  __typename?: 'LocationNoticeDisclaimerConnection';
+  edges?: Maybe<Array<Maybe<LocationNoticeDisclaimerEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type LocationNoticeDisclaimerEdge = {
+  __typename?: 'LocationNoticeDisclaimerEdge';
+  node?: Maybe<LocationNoticeDisclaimerNode>;
+};
+
+export type LocationNoticeDisclaimerNode = Disclaimer;
+
+export type LocationNoticeDisclaimerWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  disclaimer?: InputMaybe<DisclaimerWhere>;
+};
+
+export enum LocationNoticeOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type LocationNoticeTaxonomyWhere = {
+  department?: InputMaybe<LocationNoticeTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type LocationNoticeTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<LocationNoticeTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<LocationNoticeTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<LocationNoticeTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<LocationNoticeTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type LocationNoticeTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationNoticeTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationNoticeTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationNoticeTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationNoticeWhere = {
+  AND?: InputMaybe<Array<InputMaybe<LocationNoticeWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<LocationNoticeWhere>>>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  disclaimer?: InputMaybe<LocationNoticeDisclaimerWhere>;
+  disclaimer_exists?: InputMaybe<Scalars['Boolean']>;
+  display_in_body?: InputMaybe<Scalars['Boolean']>;
+  display_in_body_exists?: InputMaybe<Scalars['Boolean']>;
+  display_in_body_ne?: InputMaybe<Scalars['Boolean']>;
+  global_location?: InputMaybe<GlobalLocationWhere>;
+  global_location_exists?: InputMaybe<Scalars['Boolean']>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<LocationNoticeTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
 export enum LocationOrderBy {
   CreatedAtAsc = 'created_at_ASC',
   CreatedAtDesc = 'created_at_DESC',
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type LocationTaxonomyWhere = {
+  department?: InputMaybe<LocationTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type LocationTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<LocationTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<LocationTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<LocationTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<LocationTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type LocationTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type LocationWhere = {
   AND?: InputMaybe<Array<InputMaybe<LocationWhere>>>;
@@ -2185,6 +3687,11 @@ export type LocationWhere = {
   closed?: InputMaybe<Scalars['Boolean']>;
   closed_exists?: InputMaybe<Scalars['Boolean']>;
   closed_ne?: InputMaybe<Scalars['Boolean']>;
+  closure_notes?: InputMaybe<Scalars['String']>;
+  closure_notes_exists?: InputMaybe<Scalars['Boolean']>;
+  closure_notes_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  closure_notes_ne?: InputMaybe<Scalars['String']>;
+  closure_notes_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   contact_phone?: InputMaybe<Scalars['String']>;
   contact_phone_exists?: InputMaybe<Scalars['Boolean']>;
   contact_phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2198,6 +3705,10 @@ export type LocationWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entrance_fees?: InputMaybe<Scalars['String']>;
   entrance_fees_exists?: InputMaybe<Scalars['Boolean']>;
   entrance_fees_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2212,6 +3723,8 @@ export type LocationWhere = {
   fees_lte?: InputMaybe<Scalars['Float']>;
   fees_ne?: InputMaybe<Scalars['Float']>;
   fees_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  global_location?: InputMaybe<GlobalLocationWhere>;
+  global_location_exists?: InputMaybe<Scalars['Boolean']>;
   hours?: InputMaybe<Scalars['String']>;
   hours_exists?: InputMaybe<Scalars['Boolean']>;
   hours_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2232,10 +3745,13 @@ export type LocationWhere = {
   notes_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   notes_ne?: InputMaybe<Scalars['String']>;
   notes_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   section_blocks?: InputMaybe<SectionBlocksWhere>;
   section_blocks_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<LocationTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2254,11 +3770,23 @@ export type LocationWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Page = {
@@ -2266,24 +3794,32 @@ export type Page = {
   action_link?: Maybe<Link>;
   action_typeConnection?: Maybe<PageActionTypeConnection>;
   base?: Maybe<BasePage>;
-  base_page?: Maybe<BasePage>;
+  child_page_custom_sort_orderConnection?: Maybe<PageChildPageCustomSortOrderConnection>;
   departmentsConnection?: Maybe<PageDepartmentsConnection>;
   page_type?: Maybe<Scalars['String']>;
   parent?: Maybe<Parent>;
-  post_container_blocks?: Maybe<SectionBlocks>;
-  pre_container_blocks?: Maybe<SectionBlocks>;
   redirect?: Maybe<PageRedirect>;
   sidebar?: Maybe<Sidebar>;
   slug?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+  visual_builder?: Maybe<VisualBuilder>;
+};
+
+
+export type PageChild_Page_Custom_Sort_OrderConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefPageChildPageCustomSortOrderWhere>;
 };
 
 
 export type PageDepartmentsConnectionArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefPageDepartmentsWhere>;
 };
 
 export type PageActionTypeConnection = {
@@ -2302,6 +3838,24 @@ export type PageActionTypeNode = ServiceActionType;
 export type PageActionTypeWhere = {
   MATCH?: InputMaybe<EvalReferenceEnum>;
   service_action_type?: InputMaybe<ServiceActionTypeWhere>;
+};
+
+export type PageChildPageCustomSortOrderConnection = {
+  __typename?: 'PageChildPageCustomSortOrderConnection';
+  edges?: Maybe<Array<Maybe<PageChildPageCustomSortOrderEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type PageChildPageCustomSortOrderEdge = {
+  __typename?: 'PageChildPageCustomSortOrderEdge';
+  node?: Maybe<PageChildPageCustomSortOrderNode>;
+};
+
+export type PageChildPageCustomSortOrderNode = Page;
+
+export type PageChildPageCustomSortOrderWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  page?: InputMaybe<PageWhere>;
 };
 
 export type PageDepartmentsConnection = {
@@ -2346,6 +3900,46 @@ export type PageRedirectWhere = {
   target_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type PageTaxonomyWhere = {
+  department?: InputMaybe<PageTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type PageTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<PageTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<PageTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<PageTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<PageTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type PageTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type PageTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type PageTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type PageTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
 export type PageWhere = {
   AND?: InputMaybe<Array<InputMaybe<PageWhere>>>;
   OR?: InputMaybe<Array<InputMaybe<PageWhere>>>;
@@ -2355,8 +3949,9 @@ export type PageWhere = {
   action_type_exists?: InputMaybe<Scalars['Boolean']>;
   base?: InputMaybe<BasePageWhere>;
   base_exists?: InputMaybe<Scalars['Boolean']>;
-  base_page?: InputMaybe<BasePageWhere>;
-  base_page_exists?: InputMaybe<Scalars['Boolean']>;
+  child_page_custom_sort_order?: InputMaybe<PageChildPageCustomSortOrderWhere>;
+  child_page_custom_sort_order_count?: InputMaybe<Scalars['Int']>;
+  child_page_custom_sort_order_exists?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['DateTime']>;
   created_at_gt?: InputMaybe<Scalars['DateTime']>;
   created_at_gte?: InputMaybe<Scalars['DateTime']>;
@@ -2365,6 +3960,10 @@ export type PageWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   departments?: InputMaybe<PageDepartmentsWhere>;
   departments_count?: InputMaybe<Scalars['Int']>;
   departments_exists?: InputMaybe<Scalars['Boolean']>;
@@ -2380,10 +3979,7 @@ export type PageWhere = {
   page_type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   parent?: InputMaybe<ParentWhere>;
   parent_exists?: InputMaybe<Scalars['Boolean']>;
-  post_container_blocks?: InputMaybe<SectionBlocksWhere>;
-  post_container_blocks_exists?: InputMaybe<Scalars['Boolean']>;
-  pre_container_blocks?: InputMaybe<SectionBlocksWhere>;
-  pre_container_blocks_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   redirect?: InputMaybe<PageRedirectWhere>;
   redirect_exists?: InputMaybe<Scalars['Boolean']>;
   sidebar?: InputMaybe<SidebarWhere>;
@@ -2395,6 +3991,8 @@ export type PageWhere = {
   slug_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<PageTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2413,11 +4011,25 @@ export type PageWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  visual_builder?: InputMaybe<VisualBuilderWhere>;
+  visual_builder_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Parent = {
@@ -2448,110 +4060,6 @@ export type ParentWhere = {
   page_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type PressRelease = {
-  __typename?: 'PressRelease';
-  article_categories?: Maybe<ArticleCategories>;
-  base?: Maybe<BasePage>;
-  departmentsConnection?: Maybe<PressReleaseDepartmentsConnection>;
-  posted_date?: Maybe<Scalars['DateTime']>;
-  sidebar?: Maybe<Sidebar>;
-  system?: Maybe<EntrySystemField>;
-  title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-};
-
-
-export type PressReleaseDepartmentsConnectionArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
-  skip?: InputMaybe<Scalars['Int']>;
-};
-
-export type PressReleaseDepartmentsConnection = {
-  __typename?: 'PressReleaseDepartmentsConnection';
-  edges?: Maybe<Array<Maybe<PressReleaseDepartmentsEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-export type PressReleaseDepartmentsEdge = {
-  __typename?: 'PressReleaseDepartmentsEdge';
-  node?: Maybe<PressReleaseDepartmentsNode>;
-};
-
-export type PressReleaseDepartmentsNode = Department;
-
-export type PressReleaseDepartmentsWhere = {
-  MATCH?: InputMaybe<EvalReferenceEnum>;
-  department?: InputMaybe<DepartmentWhere>;
-};
-
-export enum PressReleaseOrderBy {
-  CreatedAtAsc = 'created_at_ASC',
-  CreatedAtDesc = 'created_at_DESC',
-  UpdatedAtAsc = 'updated_at_ASC',
-  UpdatedAtDesc = 'updated_at_DESC'
-}
-
-export type PressReleaseWhere = {
-  AND?: InputMaybe<Array<InputMaybe<PressReleaseWhere>>>;
-  OR?: InputMaybe<Array<InputMaybe<PressReleaseWhere>>>;
-  article_categories?: InputMaybe<ArticleCategoriesWhere>;
-  article_categories_exists?: InputMaybe<Scalars['Boolean']>;
-  base?: InputMaybe<BasePageWhere>;
-  base_exists?: InputMaybe<Scalars['Boolean']>;
-  created_at?: InputMaybe<Scalars['DateTime']>;
-  created_at_gt?: InputMaybe<Scalars['DateTime']>;
-  created_at_gte?: InputMaybe<Scalars['DateTime']>;
-  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  created_at_lt?: InputMaybe<Scalars['DateTime']>;
-  created_at_lte?: InputMaybe<Scalars['DateTime']>;
-  created_at_ne?: InputMaybe<Scalars['DateTime']>;
-  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  departments?: InputMaybe<PressReleaseDepartmentsWhere>;
-  departments_count?: InputMaybe<Scalars['Int']>;
-  departments_exists?: InputMaybe<Scalars['Boolean']>;
-  locale?: InputMaybe<Scalars['String']>;
-  locale_exists?: InputMaybe<Scalars['Boolean']>;
-  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  locale_ne?: InputMaybe<Scalars['String']>;
-  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  posted_date?: InputMaybe<Scalars['DateTime']>;
-  posted_date_exists?: InputMaybe<Scalars['Boolean']>;
-  posted_date_gt?: InputMaybe<Scalars['DateTime']>;
-  posted_date_gte?: InputMaybe<Scalars['DateTime']>;
-  posted_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  posted_date_lt?: InputMaybe<Scalars['DateTime']>;
-  posted_date_lte?: InputMaybe<Scalars['DateTime']>;
-  posted_date_ne?: InputMaybe<Scalars['DateTime']>;
-  posted_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  sidebar?: InputMaybe<SidebarWhere>;
-  sidebar_exists?: InputMaybe<Scalars['Boolean']>;
-  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title?: InputMaybe<Scalars['String']>;
-  title_exists?: InputMaybe<Scalars['Boolean']>;
-  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title_ne?: InputMaybe<Scalars['String']>;
-  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uid?: InputMaybe<Scalars['String']>;
-  uid_exists?: InputMaybe<Scalars['Boolean']>;
-  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  uid_ne?: InputMaybe<Scalars['String']>;
-  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  updated_at?: InputMaybe<Scalars['DateTime']>;
-  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
-  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
-  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
-  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
-  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
-  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
-  url?: InputMaybe<Scalars['String']>;
-  url_exists?: InputMaybe<Scalars['Boolean']>;
-  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  url_ne?: InputMaybe<Scalars['String']>;
-  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
 export type Query = {
   __typename?: 'Query';
   all_article?: Maybe<AllArticle>;
@@ -2562,6 +4070,7 @@ export type Query = {
   all_commissioner?: Maybe<AllCommissioner>;
   all_contact?: Maybe<AllContact>;
   all_council?: Maybe<AllCouncil>;
+  all_county_leadership?: Maybe<AllCountyLeadership>;
   all_department?: Maybe<AllDepartment>;
   all_disclaimer?: Maybe<AllDisclaimer>;
   all_external_link?: Maybe<AllExternalLink>;
@@ -2569,17 +4078,22 @@ export type Query = {
   all_featured_content_component?: Maybe<AllFeaturedContentComponent>;
   all_hiking_trail?: Maybe<AllHikingTrail>;
   all_home?: Maybe<AllHome>;
+  all_htv?: Maybe<AllHtv>;
   all_iframe_app?: Maybe<AllIframeApp>;
   all_image_gallery?: Maybe<AllImageGallery>;
+  all_landing_page?: Maybe<AllLandingPage>;
   all_location?: Maybe<AllLocation>;
+  all_location_notice?: Maybe<AllLocationNotice>;
   all_page?: Maybe<AllPage>;
-  all_press_release?: Maybe<AllPressRelease>;
   all_redirect?: Maybe<AllRedirect>;
+  all_search?: Maybe<AllSearch>;
   all_service_action_type?: Maybe<AllServiceActionType>;
   all_servicenow_category?: Maybe<AllServicenowCategory>;
   all_servicenow_kb_article?: Maybe<AllServicenowKbArticle>;
+  all_settings?: Maybe<AllSettings>;
   all_site_alert?: Maybe<AllSiteAlert>;
   all_social_platform?: Maybe<AllSocialPlatform>;
+  all_solid_waste_item?: Maybe<AllSolidWasteItem>;
   all_stay_safe?: Maybe<AllStaySafe>;
   article?: Maybe<Article>;
   asset_folder?: Maybe<AssetFolder>;
@@ -2589,6 +4103,7 @@ export type Query = {
   commissioner?: Maybe<Commissioner>;
   contact?: Maybe<Contact>;
   council?: Maybe<Council>;
+  county_leadership?: Maybe<CountyLeadership>;
   department?: Maybe<Department>;
   disclaimer?: Maybe<Disclaimer>;
   external_link?: Maybe<ExternalLink>;
@@ -2596,18 +4111,24 @@ export type Query = {
   featured_content_component?: Maybe<FeaturedContentComponent>;
   hiking_trail?: Maybe<HikingTrail>;
   home?: Maybe<Home>;
+  htv?: Maybe<Htv>;
   iframe_app?: Maybe<IframeApp>;
   image_gallery?: Maybe<ImageGallery>;
+  landing_page?: Maybe<LandingPage>;
   location?: Maybe<Location>;
+  location_notice?: Maybe<LocationNotice>;
   page?: Maybe<Page>;
-  press_release?: Maybe<PressRelease>;
   redirect?: Maybe<Redirect>;
+  search?: Maybe<Search>;
   service_action_type?: Maybe<ServiceActionType>;
   servicenow_category?: Maybe<ServicenowCategory>;
   servicenow_kb_article?: Maybe<ServicenowKbArticle>;
+  settings?: Maybe<Settings>;
   site_alert?: Maybe<SiteAlert>;
   social_platform?: Maybe<SocialPlatform>;
+  solid_waste_item?: Maybe<SolidWasteItem>;
   stay_safe?: Maybe<StaySafe>;
+  taxonomies?: Maybe<SysTaxonomies>;
 };
 
 
@@ -2691,6 +4212,16 @@ export type QueryAll_CouncilArgs = {
 };
 
 
+export type QueryAll_County_LeadershipArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<CountyLeadershipOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CountyLeadershipWhere>;
+};
+
+
 export type QueryAll_DepartmentArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2761,6 +4292,16 @@ export type QueryAll_HomeArgs = {
 };
 
 
+export type QueryAll_HtvArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<HtvOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HtvWhere>;
+};
+
+
 export type QueryAll_Iframe_AppArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2781,6 +4322,16 @@ export type QueryAll_Image_GalleryArgs = {
 };
 
 
+export type QueryAll_Landing_PageArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<LandingPageOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LandingPageWhere>;
+};
+
+
 export type QueryAll_LocationArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2788,6 +4339,16 @@ export type QueryAll_LocationArgs = {
   order_by?: InputMaybe<Array<InputMaybe<LocationOrderBy>>>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<LocationWhere>;
+};
+
+
+export type QueryAll_Location_NoticeArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<LocationNoticeOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LocationNoticeWhere>;
 };
 
 
@@ -2801,16 +4362,6 @@ export type QueryAll_PageArgs = {
 };
 
 
-export type QueryAll_Press_ReleaseArgs = {
-  fallback_locale?: InputMaybe<Scalars['Boolean']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  locale?: Scalars['String'];
-  order_by?: InputMaybe<Array<InputMaybe<PressReleaseOrderBy>>>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<PressReleaseWhere>;
-};
-
-
 export type QueryAll_RedirectArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2818,6 +4369,16 @@ export type QueryAll_RedirectArgs = {
   order_by?: InputMaybe<Array<InputMaybe<RedirectOrderBy>>>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<RedirectWhere>;
+};
+
+
+export type QueryAll_SearchArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<SearchOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SearchWhere>;
 };
 
 
@@ -2851,6 +4412,16 @@ export type QueryAll_Servicenow_Kb_ArticleArgs = {
 };
 
 
+export type QueryAll_SettingsArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<SettingsOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SettingsWhere>;
+};
+
+
 export type QueryAll_Site_AlertArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2868,6 +4439,16 @@ export type QueryAll_Social_PlatformArgs = {
   order_by?: InputMaybe<Array<InputMaybe<SocialPlatformOrderBy>>>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<SocialPlatformWhere>;
+};
+
+
+export type QueryAll_Solid_Waste_ItemArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<SolidWasteItemOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SolidWasteItemWhere>;
 };
 
 
@@ -2937,6 +4518,13 @@ export type QueryCouncilArgs = {
 };
 
 
+export type QueryCounty_LeadershipArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
 export type QueryDepartmentArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
@@ -2986,6 +4574,13 @@ export type QueryHomeArgs = {
 };
 
 
+export type QueryHtvArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
 export type QueryIframe_AppArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
@@ -3000,7 +4595,21 @@ export type QueryImage_GalleryArgs = {
 };
 
 
+export type QueryLanding_PageArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
 export type QueryLocationArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
+export type QueryLocation_NoticeArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
   uid: Scalars['String'];
@@ -3014,14 +4623,14 @@ export type QueryPageArgs = {
 };
 
 
-export type QueryPress_ReleaseArgs = {
+export type QueryRedirectArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
   uid: Scalars['String'];
 };
 
 
-export type QueryRedirectArgs = {
+export type QuerySearchArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
   uid: Scalars['String'];
@@ -3049,6 +4658,13 @@ export type QueryServicenow_Kb_ArticleArgs = {
 };
 
 
+export type QuerySettingsArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
 export type QuerySite_AlertArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
@@ -3063,17 +4679,34 @@ export type QuerySocial_PlatformArgs = {
 };
 
 
+export type QuerySolid_Waste_ItemArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  locale?: Scalars['String'];
+  uid: Scalars['String'];
+};
+
+
 export type QueryStay_SafeArgs = {
   fallback_locale?: InputMaybe<Scalars['Boolean']>;
   locale?: Scalars['String'];
   uid: Scalars['String'];
 };
 
+
+export type QueryTaxonomiesArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Scalars['TaxonomyJSON']>;
+};
+
 export type Redirect = {
   __typename?: 'Redirect';
+  sitecore_guid?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['String']>;
   system?: Maybe<EntrySystemField>;
   target?: Maybe<Scalars['String']>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -3083,6 +4716,46 @@ export enum RedirectOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type RedirectTaxonomyWhere = {
+  department?: InputMaybe<RedirectTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type RedirectTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<RedirectTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<RedirectTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<RedirectTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<RedirectTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type RedirectTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type RedirectTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type RedirectTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type RedirectTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type RedirectWhere = {
   AND?: InputMaybe<Array<InputMaybe<RedirectWhere>>>;
@@ -3095,11 +4768,21 @@ export type RedirectWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  sitecore_guid?: InputMaybe<Scalars['String']>;
+  sitecore_guid_exists?: InputMaybe<Scalars['Boolean']>;
+  sitecore_guid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sitecore_guid_ne?: InputMaybe<Scalars['String']>;
+  sitecore_guid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   source?: InputMaybe<Scalars['String']>;
   source_exists?: InputMaybe<Scalars['Boolean']>;
   source_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3112,6 +4795,8 @@ export type RedirectWhere = {
   target_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   target_ne?: InputMaybe<Scalars['String']>;
   target_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<RedirectTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3130,6 +4815,184 @@ export type RedirectWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type Search = {
+  __typename?: 'Search';
+  landing_pages?: Maybe<Array<Maybe<SearchLandingPages>>>;
+  system?: Maybe<EntrySystemField>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type SearchLandingPages = {
+  __typename?: 'SearchLandingPages';
+  icon?: Maybe<Scalars['String']>;
+  indices?: Maybe<Array<Maybe<SearchLandingPagesIndices>>>;
+  name?: Maybe<Scalars['String']>;
+  route?: Maybe<Scalars['String']>;
+};
+
+export type SearchLandingPagesIndices = {
+  __typename?: 'SearchLandingPagesIndices';
+  filters?: Maybe<Array<Maybe<Scalars['String']>>>;
+  filters_join?: Maybe<Scalars['String']>;
+  hide_count?: Maybe<Scalars['Boolean']>;
+  index_id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  prefix_environment?: Maybe<Scalars['Boolean']>;
+  refinements?: Maybe<Array<Maybe<SearchLandingPagesIndicesRefinements>>>;
+};
+
+export type SearchLandingPagesIndicesRefinements = {
+  __typename?: 'SearchLandingPagesIndicesRefinements';
+  attribute?: Maybe<Scalars['String']>;
+  component?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type SearchLandingPagesIndicesRefinementsWhere = {
+  attribute?: InputMaybe<Scalars['String']>;
+  attribute_exists?: InputMaybe<Scalars['Boolean']>;
+  attribute_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  attribute_ne?: InputMaybe<Scalars['String']>;
+  attribute_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  component?: InputMaybe<Scalars['String']>;
+  component_exists?: InputMaybe<Scalars['Boolean']>;
+  component_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  component_ne?: InputMaybe<Scalars['String']>;
+  component_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SearchLandingPagesIndicesWhere = {
+  filters?: InputMaybe<Scalars['String']>;
+  filters_exists?: InputMaybe<Scalars['Boolean']>;
+  filters_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters_join?: InputMaybe<Scalars['String']>;
+  filters_join_exists?: InputMaybe<Scalars['Boolean']>;
+  filters_join_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters_join_ne?: InputMaybe<Scalars['String']>;
+  filters_join_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters_ne?: InputMaybe<Scalars['String']>;
+  filters_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  hide_count?: InputMaybe<Scalars['Boolean']>;
+  hide_count_exists?: InputMaybe<Scalars['Boolean']>;
+  hide_count_ne?: InputMaybe<Scalars['Boolean']>;
+  index_id?: InputMaybe<Scalars['String']>;
+  index_id_exists?: InputMaybe<Scalars['Boolean']>;
+  index_id_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  index_id_ne?: InputMaybe<Scalars['String']>;
+  index_id_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  name?: InputMaybe<Scalars['String']>;
+  name_exists?: InputMaybe<Scalars['Boolean']>;
+  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  name_ne?: InputMaybe<Scalars['String']>;
+  name_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  prefix_environment?: InputMaybe<Scalars['Boolean']>;
+  prefix_environment_exists?: InputMaybe<Scalars['Boolean']>;
+  prefix_environment_ne?: InputMaybe<Scalars['Boolean']>;
+  refinements?: InputMaybe<SearchLandingPagesIndicesRefinementsWhere>;
+  refinements_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SearchLandingPagesWhere = {
+  icon?: InputMaybe<Scalars['String']>;
+  icon_exists?: InputMaybe<Scalars['Boolean']>;
+  icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon_ne?: InputMaybe<Scalars['String']>;
+  icon_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  indices?: InputMaybe<SearchLandingPagesIndicesWhere>;
+  indices_exists?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_exists?: InputMaybe<Scalars['Boolean']>;
+  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  name_ne?: InputMaybe<Scalars['String']>;
+  name_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  route?: InputMaybe<Scalars['String']>;
+  route_exists?: InputMaybe<Scalars['Boolean']>;
+  route_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  route_ne?: InputMaybe<Scalars['String']>;
+  route_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export enum SearchOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type SearchWhere = {
+  AND?: InputMaybe<Array<InputMaybe<SearchWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<SearchWhere>>>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  landing_pages?: InputMaybe<SearchLandingPagesWhere>;
+  landing_pages_exists?: InputMaybe<Scalars['Boolean']>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type SectionBlocks = {
@@ -3137,7 +5000,23 @@ export type SectionBlocks = {
   blocks?: Maybe<Array<Maybe<SectionBlocksBlocks>>>;
 };
 
-export type SectionBlocksBlocks = SectionBlocksBlocksDivider | SectionBlocksBlocksEmergencyoperationalstatus | SectionBlocksBlocksFeaturedContent | SectionBlocksBlocksImageGallery | SectionBlocksBlocksUniformcomposition | SectionBlocksBlocksVideos;
+export type SectionBlocksBlocks = SectionBlocksBlocksDefault | SectionBlocksBlocksDivider | SectionBlocksBlocksEmergencyoperationalstatus | SectionBlocksBlocksImageGallery | SectionBlocksBlocksUniformcomposition | SectionBlocksBlocksVideos;
+
+export type SectionBlocksBlocksDefault = {
+  __typename?: 'SectionBlocksBlocksDefault';
+  default?: Maybe<SectionBlocksBlocksDefaultBlock>;
+};
+
+export type SectionBlocksBlocksDefaultBlock = {
+  __typename?: 'SectionBlocksBlocksDefaultBlock';
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type SectionBlocksBlocksDefaultBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
 
 export type SectionBlocksBlocksDivider = {
   __typename?: 'SectionBlocksBlocksDivider';
@@ -3177,80 +5056,6 @@ export type SectionBlocksBlocksEmergencyoperationalstatusBlockWhere = {
   gradient_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   gradient_ne?: InputMaybe<Scalars['String']>;
   gradient_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type SectionBlocksBlocksFeaturedContent = {
-  __typename?: 'SectionBlocksBlocksFeaturedContent';
-  FeaturedContent?: Maybe<SectionBlocksBlocksFeaturedContentBlock>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlock = {
-  __typename?: 'SectionBlocksBlocksFeaturedContentBlock';
-  background_imageConnection?: Maybe<SysAssetConnection>;
-  cloudinary_background?: Maybe<Scalars['JSON']>;
-  custom?: Maybe<Scalars['JSON']>;
-  gradient?: Maybe<SectionBlocksBlocksFeaturedContentBlockGradient>;
-  referenceConnection?: Maybe<SectionBlocksBlocksFeaturedContentBlockReferenceConnection>;
-  variant?: Maybe<Scalars['String']>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlockGradient = {
-  __typename?: 'SectionBlocksBlocksFeaturedContentBlockGradient';
-  degree?: Maybe<Scalars['Float']>;
-  rgba?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlockGradientWhere = {
-  degree?: InputMaybe<Scalars['Float']>;
-  degree_exists?: InputMaybe<Scalars['Boolean']>;
-  degree_gt?: InputMaybe<Scalars['Float']>;
-  degree_gte?: InputMaybe<Scalars['Float']>;
-  degree_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
-  degree_lt?: InputMaybe<Scalars['Float']>;
-  degree_lte?: InputMaybe<Scalars['Float']>;
-  degree_ne?: InputMaybe<Scalars['Float']>;
-  degree_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
-  rgba?: InputMaybe<Scalars['String']>;
-  rgba_exists?: InputMaybe<Scalars['Boolean']>;
-  rgba_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  rgba_ne?: InputMaybe<Scalars['String']>;
-  rgba_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlockReferenceConnection = {
-  __typename?: 'SectionBlocksBlocksFeaturedContentBlockReferenceConnection';
-  edges?: Maybe<Array<Maybe<SectionBlocksBlocksFeaturedContentBlockReferenceEdge>>>;
-  totalCount?: Maybe<Scalars['Int']>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlockReferenceEdge = {
-  __typename?: 'SectionBlocksBlocksFeaturedContentBlockReferenceEdge';
-  node?: Maybe<SectionBlocksBlocksFeaturedContentBlockReferenceNode>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlockReferenceNode = FeaturedContentComponent;
-
-export type SectionBlocksBlocksFeaturedContentBlockReferenceWhere = {
-  MATCH?: InputMaybe<EvalReferenceEnum>;
-  featured_content_component?: InputMaybe<FeaturedContentComponentWhere>;
-};
-
-export type SectionBlocksBlocksFeaturedContentBlockWhere = {
-  background_image?: InputMaybe<SysAssetWhere>;
-  background_image_exists?: InputMaybe<Scalars['Boolean']>;
-  cloudinary_background?: InputMaybe<Scalars['JSON']>;
-  cloudinary_background_exists?: InputMaybe<Scalars['Boolean']>;
-  custom?: InputMaybe<Scalars['JSON']>;
-  custom_exists?: InputMaybe<Scalars['Boolean']>;
-  gradient?: InputMaybe<SectionBlocksBlocksFeaturedContentBlockGradientWhere>;
-  gradient_exists?: InputMaybe<Scalars['Boolean']>;
-  reference?: InputMaybe<SectionBlocksBlocksFeaturedContentBlockReferenceWhere>;
-  reference_exists?: InputMaybe<Scalars['Boolean']>;
-  variant?: InputMaybe<Scalars['String']>;
-  variant_exists?: InputMaybe<Scalars['Boolean']>;
-  variant_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  variant_ne?: InputMaybe<Scalars['String']>;
-  variant_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type SectionBlocksBlocksImageGallery = {
@@ -3362,10 +5167,10 @@ export type SectionBlocksBlocksVideosBlockWhere = {
 };
 
 export type SectionBlocksBlocksWhere = {
-  FeaturedContent?: InputMaybe<SectionBlocksBlocksFeaturedContentBlockWhere>;
-  FeaturedContent_exists?: InputMaybe<Scalars['Boolean']>;
   ImageGallery?: InputMaybe<SectionBlocksBlocksImageGalleryBlockWhere>;
   ImageGallery_exists?: InputMaybe<Scalars['Boolean']>;
+  default?: InputMaybe<SectionBlocksBlocksDefaultBlockWhere>;
+  default_exists?: InputMaybe<Scalars['Boolean']>;
   divider?: InputMaybe<SectionBlocksBlocksDividerBlockWhere>;
   divider_exists?: InputMaybe<Scalars['Boolean']>;
   emergencyoperationalstatus?: InputMaybe<SectionBlocksBlocksEmergencyoperationalstatusBlockWhere>;
@@ -3406,6 +5211,10 @@ export type ServiceActionTypeWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   icon?: InputMaybe<Scalars['String']>;
   icon_exists?: InputMaybe<Scalars['Boolean']>;
   icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3416,6 +5225,7 @@ export type ServiceActionTypeWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -3436,6 +5246,18 @@ export type ServiceActionTypeWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type ServicenowCategory = {
@@ -3481,6 +5303,10 @@ export type ServicenowCategoryWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3488,6 +5314,7 @@ export type ServicenowCategoryWhere = {
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   parent_category?: InputMaybe<ServicenowCategoryParentCategoryWhere>;
   parent_category_exists?: InputMaybe<Scalars['Boolean']>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title?: InputMaybe<Scalars['String']>;
@@ -3508,6 +5335,18 @@ export type ServicenowCategoryWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type ServicenowKbArticle = {
@@ -3554,6 +5393,10 @@ export type ServicenowKbArticleWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   global_field?: InputMaybe<BasePageWhere>;
   global_field_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
@@ -3561,6 +5404,7 @@ export type ServicenowKbArticleWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   servicenow_category?: InputMaybe<ServicenowKbArticleServicenowCategoryWhere>;
   servicenow_category_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3583,6 +5427,134 @@ export type ServicenowKbArticleWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type Settings = {
+  __typename?: 'Settings';
+  meta_noindex_calendar_event_days?: Maybe<Scalars['Float']>;
+  meta_noindex_news_article_days?: Maybe<Scalars['Float']>;
+  redirects?: Maybe<Array<Maybe<SettingsRedirects>>>;
+  robots_text?: Maybe<Scalars['String']>;
+  system?: Maybe<EntrySystemField>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export enum SettingsOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type SettingsRedirects = {
+  __typename?: 'SettingsRedirects';
+  source?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['String']>;
+};
+
+export type SettingsRedirectsWhere = {
+  source?: InputMaybe<Scalars['String']>;
+  source_exists?: InputMaybe<Scalars['Boolean']>;
+  source_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  source_ne?: InputMaybe<Scalars['String']>;
+  source_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  target?: InputMaybe<Scalars['String']>;
+  target_exists?: InputMaybe<Scalars['Boolean']>;
+  target_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  target_ne?: InputMaybe<Scalars['String']>;
+  target_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SettingsWhere = {
+  AND?: InputMaybe<Array<InputMaybe<SettingsWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<SettingsWhere>>>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  meta_noindex_calendar_event_days?: InputMaybe<Scalars['Float']>;
+  meta_noindex_calendar_event_days_exists?: InputMaybe<Scalars['Boolean']>;
+  meta_noindex_calendar_event_days_gt?: InputMaybe<Scalars['Float']>;
+  meta_noindex_calendar_event_days_gte?: InputMaybe<Scalars['Float']>;
+  meta_noindex_calendar_event_days_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  meta_noindex_calendar_event_days_lt?: InputMaybe<Scalars['Float']>;
+  meta_noindex_calendar_event_days_lte?: InputMaybe<Scalars['Float']>;
+  meta_noindex_calendar_event_days_ne?: InputMaybe<Scalars['Float']>;
+  meta_noindex_calendar_event_days_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  meta_noindex_news_article_days?: InputMaybe<Scalars['Float']>;
+  meta_noindex_news_article_days_exists?: InputMaybe<Scalars['Boolean']>;
+  meta_noindex_news_article_days_gt?: InputMaybe<Scalars['Float']>;
+  meta_noindex_news_article_days_gte?: InputMaybe<Scalars['Float']>;
+  meta_noindex_news_article_days_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  meta_noindex_news_article_days_lt?: InputMaybe<Scalars['Float']>;
+  meta_noindex_news_article_days_lte?: InputMaybe<Scalars['Float']>;
+  meta_noindex_news_article_days_ne?: InputMaybe<Scalars['Float']>;
+  meta_noindex_news_article_days_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  redirects?: InputMaybe<SettingsRedirectsWhere>;
+  redirects_exists?: InputMaybe<Scalars['Boolean']>;
+  robots_text?: InputMaybe<Scalars['String']>;
+  robots_text_exists?: InputMaybe<Scalars['Boolean']>;
+  robots_text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  robots_text_ne?: InputMaybe<Scalars['String']>;
+  robots_text_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type Sidebar = {
@@ -3590,24 +5562,39 @@ export type Sidebar = {
   blocks?: Maybe<Array<Maybe<SidebarBlocks>>>;
 };
 
-export type SidebarBlocks = SidebarBlocksAsset | SidebarBlocksContact | SidebarBlocksDisclaimer | SidebarBlocksImage | SidebarBlocksLocation;
+export type SidebarBlocks = SidebarBlocksArticle | SidebarBlocksContact | SidebarBlocksDisclaimer | SidebarBlocksImage | SidebarBlocksLocation;
 
-export type SidebarBlocksAsset = {
-  __typename?: 'SidebarBlocksAsset';
-  Asset?: Maybe<SidebarBlocksAssetBlock>;
+export type SidebarBlocksArticle = {
+  __typename?: 'SidebarBlocksArticle';
+  article?: Maybe<SidebarBlocksArticleBlock>;
 };
 
-export type SidebarBlocksAssetBlock = {
-  __typename?: 'SidebarBlocksAssetBlock';
-  cloudinary_file?: Maybe<Scalars['JSON']>;
-  fileConnection?: Maybe<SysAssetConnection>;
+export type SidebarBlocksArticleBlock = {
+  __typename?: 'SidebarBlocksArticleBlock';
+  articleConnection?: Maybe<SidebarBlocksArticleBlockArticleConnection>;
 };
 
-export type SidebarBlocksAssetBlockWhere = {
-  cloudinary_file?: InputMaybe<Scalars['JSON']>;
-  cloudinary_file_exists?: InputMaybe<Scalars['Boolean']>;
-  file?: InputMaybe<SysAssetWhere>;
-  file_exists?: InputMaybe<Scalars['Boolean']>;
+export type SidebarBlocksArticleBlockArticleConnection = {
+  __typename?: 'SidebarBlocksArticleBlockArticleConnection';
+  edges?: Maybe<Array<Maybe<SidebarBlocksArticleBlockArticleEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type SidebarBlocksArticleBlockArticleEdge = {
+  __typename?: 'SidebarBlocksArticleBlockArticleEdge';
+  node?: Maybe<SidebarBlocksArticleBlockArticleNode>;
+};
+
+export type SidebarBlocksArticleBlockArticleNode = Article;
+
+export type SidebarBlocksArticleBlockArticleWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  article?: InputMaybe<ArticleWhere>;
+};
+
+export type SidebarBlocksArticleBlockWhere = {
+  article?: InputMaybe<SidebarBlocksArticleBlockArticleWhere>;
+  article_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type SidebarBlocksContact = {
@@ -3683,9 +5670,8 @@ export type SidebarBlocksImage = {
 
 export type SidebarBlocksImageBlock = {
   __typename?: 'SidebarBlocksImageBlock';
-  cloudinary_image?: Maybe<Scalars['JSON']>;
   external_linkConnection?: Maybe<SidebarBlocksImageBlockExternalLinkConnection>;
-  imageConnection?: Maybe<SysAssetConnection>;
+  image?: Maybe<Scalars['JSON']>;
   link?: Maybe<Link>;
 };
 
@@ -3708,11 +5694,9 @@ export type SidebarBlocksImageBlockExternalLinkWhere = {
 };
 
 export type SidebarBlocksImageBlockWhere = {
-  cloudinary_image?: InputMaybe<Scalars['JSON']>;
-  cloudinary_image_exists?: InputMaybe<Scalars['Boolean']>;
   external_link?: InputMaybe<SidebarBlocksImageBlockExternalLinkWhere>;
   external_link_exists?: InputMaybe<Scalars['Boolean']>;
-  image?: InputMaybe<SysAssetWhere>;
+  image?: InputMaybe<Scalars['JSON']>;
   image_exists?: InputMaybe<Scalars['Boolean']>;
   link?: InputMaybe<LinkWhere>;
   link_exists?: InputMaybe<Scalars['Boolean']>;
@@ -3752,14 +5736,14 @@ export type SidebarBlocksLocationBlockWhere = {
 };
 
 export type SidebarBlocksWhere = {
-  Asset?: InputMaybe<SidebarBlocksAssetBlockWhere>;
-  Asset_exists?: InputMaybe<Scalars['Boolean']>;
   Contact?: InputMaybe<SidebarBlocksContactBlockWhere>;
   Contact_exists?: InputMaybe<Scalars['Boolean']>;
   Disclaimer?: InputMaybe<SidebarBlocksDisclaimerBlockWhere>;
   Disclaimer_exists?: InputMaybe<Scalars['Boolean']>;
   Image?: InputMaybe<SidebarBlocksImageBlockWhere>;
   Image_exists?: InputMaybe<Scalars['Boolean']>;
+  article?: InputMaybe<SidebarBlocksArticleBlockWhere>;
+  article_exists?: InputMaybe<Scalars['Boolean']>;
   location?: InputMaybe<SidebarBlocksLocationBlockWhere>;
   location_exists?: InputMaybe<Scalars['Boolean']>;
 };
@@ -3774,6 +5758,7 @@ export type SiteAlert = {
   icon?: Maybe<Scalars['String']>;
   link?: Maybe<Link>;
   system?: Maybe<EntrySystemField>;
+  taxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -3783,6 +5768,46 @@ export enum SiteAlertOrderBy {
   UpdatedAtAsc = 'updated_at_ASC',
   UpdatedAtDesc = 'updated_at_DESC'
 }
+
+export type SiteAlertTaxonomyWhere = {
+  department?: InputMaybe<SiteAlertTaxonomyWhereDepartment>;
+  department_exists?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SiteAlertTaxonomyWhereDepartment = {
+  term?: InputMaybe<Scalars['String']>;
+  term_above?: InputMaybe<SiteAlertTaxonomyWhereDepartmentTermAbove>;
+  term_below?: InputMaybe<SiteAlertTaxonomyWhereDepartmentTermBelow>;
+  term_eq_above?: InputMaybe<SiteAlertTaxonomyWhereDepartmentTermEqAbove>;
+  term_eq_below?: InputMaybe<SiteAlertTaxonomyWhereDepartmentTermEqBelow>;
+  term_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  term_ne?: InputMaybe<Scalars['String']>;
+  term_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SiteAlertTaxonomyWhereDepartmentTermAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type SiteAlertTaxonomyWhereDepartmentTermBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type SiteAlertTaxonomyWhereDepartmentTermEqAbove = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
+
+export type SiteAlertTaxonomyWhereDepartmentTermEqBelow = {
+  levels?: InputMaybe<Scalars['Float']>;
+  uid?: InputMaybe<Scalars['String']>;
+};
 
 export type SiteAlertWhere = {
   AND?: InputMaybe<Array<InputMaybe<SiteAlertWhere>>>;
@@ -3795,6 +5820,10 @@ export type SiteAlertWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   icon?: InputMaybe<Scalars['String']>;
   icon_exists?: InputMaybe<Scalars['Boolean']>;
   icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3807,8 +5836,11 @@ export type SiteAlertWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  taxonomies?: InputMaybe<SiteAlertTaxonomyWhere>;
+  taxonomies_exists?: InputMaybe<Scalars['Boolean']>;
   title?: InputMaybe<Scalars['String']>;
   title_exists?: InputMaybe<Scalars['Boolean']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3827,6 +5859,18 @@ export type SiteAlertWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type SocialPlatform = {
@@ -3857,6 +5901,10 @@ export type SocialPlatformWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   icon?: InputMaybe<Scalars['String']>;
   icon_exists?: InputMaybe<Scalars['Boolean']>;
   icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3867,6 +5915,7 @@ export type SocialPlatformWhere = {
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   share_url?: InputMaybe<Scalars['String']>;
   share_url_exists?: InputMaybe<Scalars['Boolean']>;
   share_url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3895,6 +5944,84 @@ export type SocialPlatformWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type SolidWasteItem = {
+  __typename?: 'SolidWasteItem';
+  aliases?: Maybe<Array<Maybe<Scalars['String']>>>;
+  base?: Maybe<BasePage>;
+  county_locationsConnection?: Maybe<SolidWasteItemCountyLocationsConnection>;
+  system?: Maybe<EntrySystemField>;
+  third_party_locations?: Maybe<Array<Maybe<SolidWasteItemThirdPartyLocations>>>;
+  title?: Maybe<Scalars['String']>;
+  type?: Maybe<Array<Maybe<Scalars['String']>>>;
+  url?: Maybe<Scalars['String']>;
+};
+
+
+export type SolidWasteItemCounty_LocationsConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefSolidWasteItemCountyLocationsWhere>;
+};
+
+export type SolidWasteItemCountyLocationsConnection = {
+  __typename?: 'SolidWasteItemCountyLocationsConnection';
+  edges?: Maybe<Array<Maybe<SolidWasteItemCountyLocationsEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type SolidWasteItemCountyLocationsEdge = {
+  __typename?: 'SolidWasteItemCountyLocationsEdge';
+  node?: Maybe<SolidWasteItemCountyLocationsNode>;
+};
+
+export type SolidWasteItemCountyLocationsNode = Location;
+
+export type SolidWasteItemCountyLocationsWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  location?: InputMaybe<LocationWhere>;
+};
+
+export enum SolidWasteItemOrderBy {
+  CreatedAtAsc = 'created_at_ASC',
+  CreatedAtDesc = 'created_at_DESC',
+  UpdatedAtAsc = 'updated_at_ASC',
+  UpdatedAtDesc = 'updated_at_DESC'
+}
+
+export type SolidWasteItemThirdPartyLocations = {
+  __typename?: 'SolidWasteItemThirdPartyLocations';
+  address?: Maybe<Address>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SolidWasteItemThirdPartyLocationsWhere = {
+  address?: InputMaybe<AddressWhere>;
+  address_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3902,11 +6029,89 @@ export type SocialPlatformWhere = {
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type SolidWasteItemWhere = {
+  AND?: InputMaybe<Array<InputMaybe<SolidWasteItemWhere>>>;
+  OR?: InputMaybe<Array<InputMaybe<SolidWasteItemWhere>>>;
+  aliases?: InputMaybe<Scalars['String']>;
+  aliases_exists?: InputMaybe<Scalars['Boolean']>;
+  aliases_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  aliases_ne?: InputMaybe<Scalars['String']>;
+  aliases_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  base?: InputMaybe<BasePageWhere>;
+  base_exists?: InputMaybe<Scalars['Boolean']>;
+  county_locations?: InputMaybe<SolidWasteItemCountyLocationsWhere>;
+  county_locations_count?: InputMaybe<Scalars['Int']>;
+  county_locations_exists?: InputMaybe<Scalars['Boolean']>;
+  created_at?: InputMaybe<Scalars['DateTime']>;
+  created_at_gt?: InputMaybe<Scalars['DateTime']>;
+  created_at_gte?: InputMaybe<Scalars['DateTime']>;
+  created_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_at_lt?: InputMaybe<Scalars['DateTime']>;
+  created_at_lte?: InputMaybe<Scalars['DateTime']>;
+  created_at_ne?: InputMaybe<Scalars['DateTime']>;
+  created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale?: InputMaybe<Scalars['String']>;
+  locale_exists?: InputMaybe<Scalars['Boolean']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
+  tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  third_party_locations?: InputMaybe<SolidWasteItemThirdPartyLocationsWhere>;
+  third_party_locations_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type?: InputMaybe<Scalars['String']>;
+  type_exists?: InputMaybe<Scalars['Boolean']>;
+  type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type_ne?: InputMaybe<Scalars['String']>;
+  type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid?: InputMaybe<Scalars['String']>;
+  uid_exists?: InputMaybe<Scalars['Boolean']>;
+  uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uid_ne?: InputMaybe<Scalars['String']>;
+  uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_at?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_gte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_at_lt?: InputMaybe<Scalars['DateTime']>;
+  updated_at_lte?: InputMaybe<Scalars['DateTime']>;
+  updated_at_ne?: InputMaybe<Scalars['DateTime']>;
+  updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
 export type StaySafe = {
   __typename?: 'StaySafe';
   activation_level?: Maybe<Scalars['String']>;
   active_events?: Maybe<Scalars['String']>;
   evacuation_levels?: Maybe<Array<Maybe<Scalars['String']>>>;
+  evacuation_link?: Maybe<Link>;
   sandbag_locations?: Maybe<Array<Maybe<StaySafeSandbagLocations>>>;
   system?: Maybe<EntrySystemField>;
   title?: Maybe<Scalars['String']>;
@@ -4028,16 +6233,23 @@ export type StaySafeWhere = {
   created_at_lte?: InputMaybe<Scalars['DateTime']>;
   created_at_ne?: InputMaybe<Scalars['DateTime']>;
   created_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  created_by?: InputMaybe<Scalars['String']>;
+  created_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  created_by_ne?: InputMaybe<Scalars['String']>;
+  created_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   evacuation_levels?: InputMaybe<Scalars['String']>;
   evacuation_levels_exists?: InputMaybe<Scalars['Boolean']>;
   evacuation_levels_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   evacuation_levels_ne?: InputMaybe<Scalars['String']>;
   evacuation_levels_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  evacuation_link?: InputMaybe<LinkWhere>;
+  evacuation_link_exists?: InputMaybe<Scalars['Boolean']>;
   locale?: InputMaybe<Scalars['String']>;
   locale_exists?: InputMaybe<Scalars['Boolean']>;
   locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locale_ne?: InputMaybe<Scalars['String']>;
   locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  publish_details?: InputMaybe<SystemPublishDetailsWhere>;
   sandbag_locations?: InputMaybe<StaySafeSandbagLocationsWhere>;
   sandbag_locations_exists?: InputMaybe<Scalars['Boolean']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -4060,6 +6272,18 @@ export type StaySafeWhere = {
   updated_at_lte?: InputMaybe<Scalars['DateTime']>;
   updated_at_ne?: InputMaybe<Scalars['DateTime']>;
   updated_at_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updated_by?: InputMaybe<Scalars['String']>;
+  updated_by_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updated_by_ne?: InputMaybe<Scalars['String']>;
+  updated_by_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  version?: InputMaybe<Scalars['Int']>;
+  version_gt?: InputMaybe<Scalars['Int']>;
+  version_gte?: InputMaybe<Scalars['Int']>;
+  version_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  version_lt?: InputMaybe<Scalars['Int']>;
+  version_lte?: InputMaybe<Scalars['Int']>;
+  version_ne?: InputMaybe<Scalars['Int']>;
+  version_nin?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type SysAsset = {
@@ -4070,6 +6294,8 @@ export type SysAsset = {
   file_size?: Maybe<Scalars['Int']>;
   filename?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
+  parent_uid?: Maybe<Scalars['String']>;
+  permanent_url?: Maybe<Scalars['String']>;
   system?: Maybe<SysAssetSystemField>;
   title?: Maybe<Scalars['String']>;
   unique_identifier?: Maybe<Scalars['String']>;
@@ -4293,6 +6519,11 @@ export type SysAssetWhere = {
   filename_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filename_ne?: InputMaybe<Scalars['String']>;
   filename_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  parent_uid?: InputMaybe<Scalars['String']>;
+  parent_uid_exists?: InputMaybe<Scalars['Boolean']>;
+  parent_uid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  parent_uid_ne?: InputMaybe<Scalars['String']>;
+  parent_uid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags?: InputMaybe<Scalars['String']>;
   tags_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -4321,6 +6552,59 @@ export type SysAssetWhere = {
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type SysBasePageNavigationWhere = {
+  hide_in_navigation?: InputMaybe<Scalars['Boolean']>;
+  hide_in_navigation_exists?: InputMaybe<Scalars['Boolean']>;
+  hide_in_navigation_ne?: InputMaybe<Scalars['Boolean']>;
+  hide_in_search_results?: InputMaybe<Scalars['Boolean']>;
+  hide_in_search_results_exists?: InputMaybe<Scalars['Boolean']>;
+  hide_in_search_results_ne?: InputMaybe<Scalars['Boolean']>;
+  navigation_title?: InputMaybe<Scalars['String']>;
+  navigation_title_exists?: InputMaybe<Scalars['Boolean']>;
+  navigation_title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  navigation_title_ne?: InputMaybe<Scalars['String']>;
+  navigation_title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysContactEmailsWhere = {
+  address?: InputMaybe<Scalars['String']>;
+  address_exists?: InputMaybe<Scalars['Boolean']>;
+  address_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  address_ne?: InputMaybe<Scalars['String']>;
+  address_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type?: InputMaybe<Scalars['String']>;
+  type_exists?: InputMaybe<Scalars['Boolean']>;
+  type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type_ne?: InputMaybe<Scalars['String']>;
+  type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysContactPhonesWhere = {
+  extension?: InputMaybe<Scalars['Float']>;
+  extension_exists?: InputMaybe<Scalars['Boolean']>;
+  extension_gt?: InputMaybe<Scalars['Float']>;
+  extension_gte?: InputMaybe<Scalars['Float']>;
+  extension_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  extension_lt?: InputMaybe<Scalars['Float']>;
+  extension_lte?: InputMaybe<Scalars['Float']>;
+  extension_ne?: InputMaybe<Scalars['Float']>;
+  extension_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  number?: InputMaybe<Scalars['Float']>;
+  number_exists?: InputMaybe<Scalars['Boolean']>;
+  number_gt?: InputMaybe<Scalars['Float']>;
+  number_gte?: InputMaybe<Scalars['Float']>;
+  number_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  number_lt?: InputMaybe<Scalars['Float']>;
+  number_lte?: InputMaybe<Scalars['Float']>;
+  number_ne?: InputMaybe<Scalars['Float']>;
+  number_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  type?: InputMaybe<Scalars['String']>;
+  type_exists?: InputMaybe<Scalars['Boolean']>;
+  type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  type_ne?: InputMaybe<Scalars['String']>;
+  type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type SysExtensionConnection = {
   __typename?: 'SysExtensionConnection';
   edges?: Maybe<Array<Maybe<SysExtensionEdge>>>;
@@ -4332,10 +6616,962 @@ export type SysExtensionEdge = {
   node?: Maybe<SysMetadata>;
 };
 
+export type SysLocationBlocksGenericBlockWhere = {
+  body?: InputMaybe<Scalars['String']>;
+  body_exists?: InputMaybe<Scalars['Boolean']>;
+  body_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  body_ne?: InputMaybe<Scalars['String']>;
+  body_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysLocationBlocksWhere = {
+  Generic?: InputMaybe<SysLocationBlocksGenericBlockWhere>;
+  Generic_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type SysMetadata = {
   __typename?: 'SysMetadata';
   extension_uid?: Maybe<Scalars['String']>;
   metadata?: Maybe<Array<Maybe<Scalars['JSON']>>>;
+};
+
+export type SysPageRedirectWhere = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  active_exists?: InputMaybe<Scalars['Boolean']>;
+  active_ne?: InputMaybe<Scalars['Boolean']>;
+  target?: InputMaybe<Scalars['String']>;
+  target_exists?: InputMaybe<Scalars['Boolean']>;
+  target_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  target_ne?: InputMaybe<Scalars['String']>;
+  target_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefAddressWhere = {
+  address?: InputMaybe<Scalars['String']>;
+  address_exists?: InputMaybe<Scalars['Boolean']>;
+  address_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  address_ne?: InputMaybe<Scalars['String']>;
+  address_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  city?: InputMaybe<Scalars['String']>;
+  city_exists?: InputMaybe<Scalars['Boolean']>;
+  city_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  city_ne?: InputMaybe<Scalars['String']>;
+  city_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  google_map?: InputMaybe<Scalars['String']>;
+  google_map_exists?: InputMaybe<Scalars['Boolean']>;
+  google_map_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  google_map_ne?: InputMaybe<Scalars['String']>;
+  google_map_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  latitude?: InputMaybe<Scalars['String']>;
+  latitude_exists?: InputMaybe<Scalars['Boolean']>;
+  latitude_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  latitude_ne?: InputMaybe<Scalars['String']>;
+  latitude_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  longitude?: InputMaybe<Scalars['String']>;
+  longitude_exists?: InputMaybe<Scalars['Boolean']>;
+  longitude_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  longitude_ne?: InputMaybe<Scalars['String']>;
+  longitude_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  state?: InputMaybe<Scalars['String']>;
+  state_exists?: InputMaybe<Scalars['Boolean']>;
+  state_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  state_ne?: InputMaybe<Scalars['String']>;
+  state_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  zip_code?: InputMaybe<Scalars['String']>;
+  zip_code_exists?: InputMaybe<Scalars['Boolean']>;
+  zip_code_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  zip_code_ne?: InputMaybe<Scalars['String']>;
+  zip_code_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefArticleCategoriesWhere = {
+  categories?: InputMaybe<Scalars['String']>;
+  categories_exists?: InputMaybe<Scalars['Boolean']>;
+  categories_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  categories_ne?: InputMaybe<Scalars['String']>;
+  categories_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefArticleDepartmentsWhere = {
+  department?: InputMaybe<SysRefDepartmentWhere>;
+};
+
+export type SysRefArticleWhere = {
+  article_categories?: InputMaybe<SysRefArticleCategoriesWhere>;
+  article_type?: InputMaybe<Scalars['String']>;
+  article_type_exists?: InputMaybe<Scalars['Boolean']>;
+  article_type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  article_type_ne?: InputMaybe<Scalars['String']>;
+  article_type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  base?: InputMaybe<SysRefBasePageWhere>;
+  evergreen?: InputMaybe<Scalars['Boolean']>;
+  evergreen_exists?: InputMaybe<Scalars['Boolean']>;
+  evergreen_ne?: InputMaybe<Scalars['Boolean']>;
+  sidebar?: InputMaybe<SysRefSidebarWhere>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefBasePageWhere = {
+  lang?: InputMaybe<Scalars['String']>;
+  lang_exists?: InputMaybe<Scalars['Boolean']>;
+  lang_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lang_ne?: InputMaybe<Scalars['String']>;
+  lang_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  navigation?: InputMaybe<SysBasePageNavigationWhere>;
+  posted_date?: InputMaybe<Scalars['DateTime']>;
+  posted_date_exists?: InputMaybe<Scalars['Boolean']>;
+  posted_date_gt?: InputMaybe<Scalars['DateTime']>;
+  posted_date_gte?: InputMaybe<Scalars['DateTime']>;
+  posted_date_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  posted_date_lt?: InputMaybe<Scalars['DateTime']>;
+  posted_date_lte?: InputMaybe<Scalars['DateTime']>;
+  posted_date_ne?: InputMaybe<Scalars['DateTime']>;
+  posted_date_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  robots_noindex?: InputMaybe<Scalars['Boolean']>;
+  robots_noindex_exists?: InputMaybe<Scalars['Boolean']>;
+  robots_noindex_ne?: InputMaybe<Scalars['Boolean']>;
+  short_description?: InputMaybe<Scalars['String']>;
+  short_description_exists?: InputMaybe<Scalars['Boolean']>;
+  short_description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  short_description_ne?: InputMaybe<Scalars['String']>;
+  short_description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  show_table_of_contents?: InputMaybe<Scalars['Boolean']>;
+  show_table_of_contents_exists?: InputMaybe<Scalars['Boolean']>;
+  show_table_of_contents_ne?: InputMaybe<Scalars['Boolean']>;
+  sitecore_guid?: InputMaybe<Scalars['String']>;
+  sitecore_guid_exists?: InputMaybe<Scalars['Boolean']>;
+  sitecore_guid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sitecore_guid_ne?: InputMaybe<Scalars['String']>;
+  sitecore_guid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefCalendarEventWhere = {
+  base?: InputMaybe<SysRefBasePageWhere>;
+  calendar?: InputMaybe<Scalars['String']>;
+  calendar_exists?: InputMaybe<Scalars['Boolean']>;
+  calendar_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  calendar_ne?: InputMaybe<Scalars['String']>;
+  calendar_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  default_event_browser_view?: InputMaybe<Scalars['String']>;
+  default_event_browser_view_exists?: InputMaybe<Scalars['Boolean']>;
+  default_event_browser_view_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  default_event_browser_view_ne?: InputMaybe<Scalars['String']>;
+  default_event_browser_view_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefCommissionerAidesWhere = {
+  contact?: InputMaybe<SysRefContactWhere>;
+};
+
+export type SysRefContactAdminAssistantWhere = {
+  contact?: InputMaybe<SysRefContactWhere>;
+};
+
+export type SysRefContactWhere = {
+  emails?: InputMaybe<SysContactEmailsWhere>;
+  full_name?: InputMaybe<Scalars['String']>;
+  full_name_exists?: InputMaybe<Scalars['Boolean']>;
+  full_name_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  full_name_ne?: InputMaybe<Scalars['String']>;
+  full_name_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  job_title?: InputMaybe<Scalars['String']>;
+  job_title_exists?: InputMaybe<Scalars['Boolean']>;
+  job_title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  job_title_ne?: InputMaybe<Scalars['String']>;
+  job_title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location_note?: InputMaybe<Scalars['String']>;
+  location_note_exists?: InputMaybe<Scalars['Boolean']>;
+  location_note_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location_note_ne?: InputMaybe<Scalars['String']>;
+  location_note_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  phones?: InputMaybe<SysContactPhonesWhere>;
+  sitecore_guid?: InputMaybe<Scalars['String']>;
+  sitecore_guid_exists?: InputMaybe<Scalars['Boolean']>;
+  sitecore_guid_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sitecore_guid_ne?: InputMaybe<Scalars['String']>;
+  sitecore_guid_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefCouncilContactWhere = {
+  contact?: InputMaybe<SysRefContactWhere>;
+};
+
+export type SysRefCouncilEventsWhere = {
+  calendar_event?: InputMaybe<SysRefCalendarEventWhere>;
+};
+
+export type SysRefCountyLeadershipSectionsLeadersWhere = {
+  contact?: InputMaybe<SysRefContactWhere>;
+};
+
+export type SysRefDepartmentManagerContactWhere = {
+  contact?: InputMaybe<SysRefContactWhere>;
+};
+
+export type SysRefDepartmentWhere = {
+  base?: InputMaybe<SysRefBasePageWhere>;
+  icon?: InputMaybe<Scalars['String']>;
+  icon_exists?: InputMaybe<Scalars['Boolean']>;
+  icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon_ne?: InputMaybe<Scalars['String']>;
+  icon_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  sidebar?: InputMaybe<SysRefSidebarWhere>;
+  site_sections?: InputMaybe<Scalars['String']>;
+  site_sections_exists?: InputMaybe<Scalars['Boolean']>;
+  site_sections_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  site_sections_ne?: InputMaybe<Scalars['String']>;
+  site_sections_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  visual_builder?: InputMaybe<SysRefVisualBuilderWhere>;
+};
+
+export type SysRefGlobalLocationWhere = {
+  amenities?: InputMaybe<Scalars['String']>;
+  amenities_exists?: InputMaybe<Scalars['Boolean']>;
+  amenities_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  amenities_ne?: InputMaybe<Scalars['String']>;
+  amenities_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  categories?: InputMaybe<Scalars['String']>;
+  categories_exists?: InputMaybe<Scalars['Boolean']>;
+  categories_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  categories_ne?: InputMaybe<Scalars['String']>;
+  categories_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefHomeFooterLinksWhere = {
+  page?: InputMaybe<SysRefPageWhere>;
+};
+
+export type SysRefHomeFooterSocialLinksWhere = {
+  social_platform?: InputMaybe<SysRefSocialPlatformWhere>;
+};
+
+export type SysRefLocationWhere = {
+  address?: InputMaybe<SysRefAddressWhere>;
+  aliases?: InputMaybe<Scalars['String']>;
+  aliases_exists?: InputMaybe<Scalars['Boolean']>;
+  aliases_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  aliases_ne?: InputMaybe<Scalars['String']>;
+  aliases_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  amenities?: InputMaybe<Scalars['String']>;
+  amenities_exists?: InputMaybe<Scalars['Boolean']>;
+  amenities_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  amenities_ne?: InputMaybe<Scalars['String']>;
+  amenities_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  base?: InputMaybe<SysRefBasePageWhere>;
+  blocks?: InputMaybe<SysLocationBlocksWhere>;
+  closed?: InputMaybe<Scalars['Boolean']>;
+  closed_exists?: InputMaybe<Scalars['Boolean']>;
+  closed_ne?: InputMaybe<Scalars['Boolean']>;
+  closure_notes?: InputMaybe<Scalars['String']>;
+  closure_notes_exists?: InputMaybe<Scalars['Boolean']>;
+  closure_notes_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  closure_notes_ne?: InputMaybe<Scalars['String']>;
+  closure_notes_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  contact_phone?: InputMaybe<Scalars['String']>;
+  contact_phone_exists?: InputMaybe<Scalars['Boolean']>;
+  contact_phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  contact_phone_ne?: InputMaybe<Scalars['String']>;
+  contact_phone_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entrance_fees?: InputMaybe<Scalars['String']>;
+  entrance_fees_exists?: InputMaybe<Scalars['Boolean']>;
+  entrance_fees_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entrance_fees_ne?: InputMaybe<Scalars['String']>;
+  entrance_fees_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  fees?: InputMaybe<Scalars['Float']>;
+  fees_exists?: InputMaybe<Scalars['Boolean']>;
+  fees_gt?: InputMaybe<Scalars['Float']>;
+  fees_gte?: InputMaybe<Scalars['Float']>;
+  fees_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  fees_lt?: InputMaybe<Scalars['Float']>;
+  fees_lte?: InputMaybe<Scalars['Float']>;
+  fees_ne?: InputMaybe<Scalars['Float']>;
+  fees_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  global_location?: InputMaybe<SysRefGlobalLocationWhere>;
+  hours?: InputMaybe<Scalars['String']>;
+  hours_exists?: InputMaybe<Scalars['Boolean']>;
+  hours_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  hours_ne?: InputMaybe<Scalars['String']>;
+  hours_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location_categories?: InputMaybe<Scalars['String']>;
+  location_categories_exists?: InputMaybe<Scalars['Boolean']>;
+  location_categories_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  location_categories_ne?: InputMaybe<Scalars['String']>;
+  location_categories_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  notes?: InputMaybe<Scalars['String']>;
+  notes_exists?: InputMaybe<Scalars['Boolean']>;
+  notes_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  notes_ne?: InputMaybe<Scalars['String']>;
+  notes_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  section_blocks?: InputMaybe<SysRefSectionBlocksWhere>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefPageChildPageCustomSortOrderWhere = {
+  page?: InputMaybe<SysRefPageWhere>;
+};
+
+export type SysRefPageDepartmentsWhere = {
+  department?: InputMaybe<SysRefDepartmentWhere>;
+};
+
+export type SysRefPageWhere = {
+  action_link?: InputMaybe<LinkWhere>;
+  base?: InputMaybe<SysRefBasePageWhere>;
+  page_type?: InputMaybe<Scalars['String']>;
+  page_type_exists?: InputMaybe<Scalars['Boolean']>;
+  page_type_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  page_type_ne?: InputMaybe<Scalars['String']>;
+  page_type_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  redirect?: InputMaybe<SysPageRedirectWhere>;
+  sidebar?: InputMaybe<SysRefSidebarWhere>;
+  slug?: InputMaybe<Scalars['String']>;
+  slug_exists?: InputMaybe<Scalars['Boolean']>;
+  slug_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  slug_ne?: InputMaybe<Scalars['String']>;
+  slug_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  visual_builder?: InputMaybe<SysRefVisualBuilderWhere>;
+};
+
+export type SysRefSectionBlocksWhere = {
+  blocks?: InputMaybe<SysSectionBlocksBlocksWhere>;
+};
+
+export type SysRefSidebarWhere = {
+  blocks?: InputMaybe<SysSidebarBlocksWhere>;
+};
+
+export type SysRefSocialPlatformWhere = {
+  icon?: InputMaybe<Scalars['String']>;
+  icon_exists?: InputMaybe<Scalars['Boolean']>;
+  icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon_ne?: InputMaybe<Scalars['String']>;
+  icon_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  share_url?: InputMaybe<Scalars['String']>;
+  share_url_exists?: InputMaybe<Scalars['Boolean']>;
+  share_url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  share_url_ne?: InputMaybe<Scalars['String']>;
+  share_url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  shareable?: InputMaybe<Scalars['Boolean']>;
+  shareable_exists?: InputMaybe<Scalars['Boolean']>;
+  shareable_ne?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysRefSolidWasteItemCountyLocationsWhere = {
+  location?: InputMaybe<SysRefLocationWhere>;
+};
+
+export type SysRefVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyWhere = {
+  article?: InputMaybe<SysRefArticleWhere>;
+};
+
+export type SysRefVisualBuilderWhere = {
+  enable_sidebar?: InputMaybe<Scalars['Boolean']>;
+  enable_sidebar_exists?: InputMaybe<Scalars['Boolean']>;
+  enable_sidebar_ne?: InputMaybe<Scalars['Boolean']>;
+  visual_builder_body?: InputMaybe<SysVisualBuilderVisualBuilderBodyWhere>;
+  visual_builder_sidebar?: InputMaybe<SysVisualBuilderVisualBuilderSidebarWhere>;
+};
+
+export type SysSectionBlocksBlocksDefaultBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysSectionBlocksBlocksDividerBlockWhere = {
+  margin?: InputMaybe<Scalars['Float']>;
+  margin_exists?: InputMaybe<Scalars['Boolean']>;
+  margin_gt?: InputMaybe<Scalars['Float']>;
+  margin_gte?: InputMaybe<Scalars['Float']>;
+  margin_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  margin_lt?: InputMaybe<Scalars['Float']>;
+  margin_lte?: InputMaybe<Scalars['Float']>;
+  margin_ne?: InputMaybe<Scalars['Float']>;
+  margin_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+};
+
+export type SysSectionBlocksBlocksEmergencyoperationalstatusBlockWhere = {
+  gradient?: InputMaybe<Scalars['String']>;
+  gradient_exists?: InputMaybe<Scalars['Boolean']>;
+  gradient_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  gradient_ne?: InputMaybe<Scalars['String']>;
+  gradient_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysSectionBlocksBlocksUniformcompositionBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysSectionBlocksBlocksVideosBlockGradientWhere = {
+  degree?: InputMaybe<Scalars['Float']>;
+  degree_exists?: InputMaybe<Scalars['Boolean']>;
+  degree_gt?: InputMaybe<Scalars['Float']>;
+  degree_gte?: InputMaybe<Scalars['Float']>;
+  degree_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  degree_lt?: InputMaybe<Scalars['Float']>;
+  degree_lte?: InputMaybe<Scalars['Float']>;
+  degree_ne?: InputMaybe<Scalars['Float']>;
+  degree_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  rgba?: InputMaybe<Scalars['String']>;
+  rgba_exists?: InputMaybe<Scalars['Boolean']>;
+  rgba_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  rgba_ne?: InputMaybe<Scalars['String']>;
+  rgba_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysSectionBlocksBlocksVideosBlockWhere = {
+  color?: InputMaybe<Scalars['String']>;
+  color_exists?: InputMaybe<Scalars['Boolean']>;
+  color_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color_ne?: InputMaybe<Scalars['String']>;
+  color_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  gradient?: InputMaybe<SysSectionBlocksBlocksVideosBlockGradientWhere>;
+  sources?: InputMaybe<LinkWhere>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysSectionBlocksBlocksWhere = {
+  default?: InputMaybe<SysSectionBlocksBlocksDefaultBlockWhere>;
+  default_exists?: InputMaybe<Scalars['Boolean']>;
+  divider?: InputMaybe<SysSectionBlocksBlocksDividerBlockWhere>;
+  divider_exists?: InputMaybe<Scalars['Boolean']>;
+  emergencyoperationalstatus?: InputMaybe<SysSectionBlocksBlocksEmergencyoperationalstatusBlockWhere>;
+  emergencyoperationalstatus_exists?: InputMaybe<Scalars['Boolean']>;
+  uniformcomposition?: InputMaybe<SysSectionBlocksBlocksUniformcompositionBlockWhere>;
+  uniformcomposition_exists?: InputMaybe<Scalars['Boolean']>;
+  videos?: InputMaybe<SysSectionBlocksBlocksVideosBlockWhere>;
+  videos_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysSidebarBlocksImageBlockWhere = {
+  link?: InputMaybe<LinkWhere>;
+};
+
+export type SysSidebarBlocksWhere = {
+  Image?: InputMaybe<SysSidebarBlocksImageBlockWhere>;
+  Image_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysTaxonomies = {
+  __typename?: 'SysTaxonomies';
+  all_article?: Maybe<AllArticle>;
+  all_asset_folder?: Maybe<AllAssetFolder>;
+  all_calendar_event?: Maybe<AllCalendarEvent>;
+  all_contact?: Maybe<AllContact>;
+  all_council?: Maybe<AllCouncil>;
+  all_disclaimer?: Maybe<AllDisclaimer>;
+  all_external_link?: Maybe<AllExternalLink>;
+  all_faq?: Maybe<AllFaq>;
+  all_featured_content_component?: Maybe<AllFeaturedContentComponent>;
+  all_hiking_trail?: Maybe<AllHikingTrail>;
+  all_iframe_app?: Maybe<AllIframeApp>;
+  all_image_gallery?: Maybe<AllImageGallery>;
+  all_landing_page?: Maybe<AllLandingPage>;
+  all_location?: Maybe<AllLocation>;
+  all_location_notice?: Maybe<AllLocationNotice>;
+  all_page?: Maybe<AllPage>;
+  all_redirect?: Maybe<AllRedirect>;
+  all_site_alert?: Maybe<AllSiteAlert>;
+};
+
+
+export type SysTaxonomiesAll_ArticleArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<ArticleOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ArticleWhere>;
+};
+
+
+export type SysTaxonomiesAll_Asset_FolderArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<AssetFolderOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AssetFolderWhere>;
+};
+
+
+export type SysTaxonomiesAll_Calendar_EventArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<CalendarEventOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CalendarEventWhere>;
+};
+
+
+export type SysTaxonomiesAll_ContactArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<ContactOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContactWhere>;
+};
+
+
+export type SysTaxonomiesAll_CouncilArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<CouncilOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CouncilWhere>;
+};
+
+
+export type SysTaxonomiesAll_DisclaimerArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<DisclaimerOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DisclaimerWhere>;
+};
+
+
+export type SysTaxonomiesAll_External_LinkArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<ExternalLinkOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ExternalLinkWhere>;
+};
+
+
+export type SysTaxonomiesAll_FaqArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<FaqOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FaqWhere>;
+};
+
+
+export type SysTaxonomiesAll_Featured_Content_ComponentArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<FeaturedContentComponentOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FeaturedContentComponentWhere>;
+};
+
+
+export type SysTaxonomiesAll_Hiking_TrailArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<HikingTrailOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<HikingTrailWhere>;
+};
+
+
+export type SysTaxonomiesAll_Iframe_AppArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<IframeAppOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<IframeAppWhere>;
+};
+
+
+export type SysTaxonomiesAll_Image_GalleryArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<ImageGalleryOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ImageGalleryWhere>;
+};
+
+
+export type SysTaxonomiesAll_Landing_PageArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<LandingPageOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LandingPageWhere>;
+};
+
+
+export type SysTaxonomiesAll_LocationArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<LocationOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LocationWhere>;
+};
+
+
+export type SysTaxonomiesAll_Location_NoticeArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<LocationNoticeOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<LocationNoticeWhere>;
+};
+
+
+export type SysTaxonomiesAll_PageArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<PageOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PageWhere>;
+};
+
+
+export type SysTaxonomiesAll_RedirectArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<RedirectOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<RedirectWhere>;
+};
+
+
+export type SysTaxonomiesAll_Site_AlertArgs = {
+  fallback_locale?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  locale?: Scalars['String'];
+  order_by?: InputMaybe<Array<InputMaybe<SiteAlertOrderBy>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SiteAlertWhere>;
+};
+
+export type SysVariants = {
+  __typename?: 'SysVariants';
+  alias?: Maybe<Scalars['String']>;
+  environment?: Maybe<Scalars['String']>;
+  locale?: Maybe<Scalars['String']>;
+  time?: Maybe<Scalars['DateTime']>;
+  user?: Maybe<Scalars['String']>;
+  variant_uid?: Maybe<Scalars['String']>;
+};
+
+export type SysVisualBuilderVisualBuilderBodyBannerBlockWhere = {
+  description?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_ne?: InputMaybe<Scalars['String']>;
+  description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading?: InputMaybe<Scalars['String']>;
+  heading_exists?: InputMaybe<Scalars['Boolean']>;
+  heading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading_ne?: InputMaybe<Scalars['String']>;
+  heading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url?: InputMaybe<Scalars['String']>;
+  url_exists?: InputMaybe<Scalars['Boolean']>;
+  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_ne?: InputMaybe<Scalars['String']>;
+  url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodyDefaultBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderBodyDividerBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderBodyHeroBlockWhere = {
+  call_to_action_text?: InputMaybe<Scalars['String']>;
+  call_to_action_text_exists?: InputMaybe<Scalars['Boolean']>;
+  call_to_action_text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  call_to_action_text_ne?: InputMaybe<Scalars['String']>;
+  call_to_action_text_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color?: InputMaybe<Scalars['String']>;
+  color_exists?: InputMaybe<Scalars['Boolean']>;
+  color_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color_ne?: InputMaybe<Scalars['String']>;
+  color_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading?: InputMaybe<Scalars['String']>;
+  heading_exists?: InputMaybe<Scalars['Boolean']>;
+  heading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading_ne?: InputMaybe<Scalars['String']>;
+  heading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link_url?: InputMaybe<Scalars['String']>;
+  link_url_exists?: InputMaybe<Scalars['Boolean']>;
+  link_url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link_url_ne?: InputMaybe<Scalars['String']>;
+  link_url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  show_call_to_action?: InputMaybe<Scalars['Boolean']>;
+  show_call_to_action_exists?: InputMaybe<Scalars['Boolean']>;
+  show_call_to_action_ne?: InputMaybe<Scalars['Boolean']>;
+  subheading?: InputMaybe<Scalars['String']>;
+  subheading_exists?: InputMaybe<Scalars['Boolean']>;
+  subheading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  subheading_ne?: InputMaybe<Scalars['String']>;
+  subheading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlockWhere = {
+  block?: InputMaybe<Scalars['Boolean']>;
+  block_exists?: InputMaybe<Scalars['Boolean']>;
+  block_ne?: InputMaybe<Scalars['Boolean']>;
+  color?: InputMaybe<Scalars['String']>;
+  color_exists?: InputMaybe<Scalars['Boolean']>;
+  color_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color_ne?: InputMaybe<Scalars['String']>;
+  color_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  justify?: InputMaybe<Scalars['String']>;
+  justify_exists?: InputMaybe<Scalars['Boolean']>;
+  justify_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  justify_ne?: InputMaybe<Scalars['String']>;
+  justify_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link?: InputMaybe<LinkWhere>;
+  size?: InputMaybe<Scalars['String']>;
+  size_exists?: InputMaybe<Scalars['Boolean']>;
+  size_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  size_ne?: InputMaybe<Scalars['String']>;
+  size_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  variant?: InputMaybe<Scalars['String']>;
+  variant_exists?: InputMaybe<Scalars['Boolean']>;
+  variant_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  variant_ne?: InputMaybe<Scalars['String']>;
+  variant_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinksWhere = {
+  description?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_ne?: InputMaybe<Scalars['String']>;
+  description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon?: InputMaybe<Scalars['String']>;
+  icon_exists?: InputMaybe<Scalars['Boolean']>;
+  icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon_ne?: InputMaybe<Scalars['String']>;
+  icon_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link?: InputMaybe<LinkWhere>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockWhere = {
+  links?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinksWhere>;
+  variant?: InputMaybe<Scalars['String']>;
+  variant_exists?: InputMaybe<Scalars['Boolean']>;
+  variant_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  variant_ne?: InputMaybe<Scalars['String']>;
+  variant_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockWhere = {
+  categories?: InputMaybe<SysRefArticleCategoriesWhere>;
+  limit?: InputMaybe<Scalars['Float']>;
+  limit_exists?: InputMaybe<Scalars['Boolean']>;
+  limit_gt?: InputMaybe<Scalars['Float']>;
+  limit_gte?: InputMaybe<Scalars['Float']>;
+  limit_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  limit_lt?: InputMaybe<Scalars['Float']>;
+  limit_lte?: InputMaybe<Scalars['Float']>;
+  limit_ne?: InputMaybe<Scalars['Float']>;
+  limit_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlockWhere = {
+  rich_text_editor?: InputMaybe<Scalars['String']>;
+  rich_text_editor_exists?: InputMaybe<Scalars['Boolean']>;
+  rich_text_editor_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  rich_text_editor_ne?: InputMaybe<Scalars['String']>;
+  rich_text_editor_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlockWhere = {
+  aspect_ratio?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_exists?: InputMaybe<Scalars['Boolean']>;
+  aspect_ratio_gt?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_gte?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  aspect_ratio_lt?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_lte?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_ne?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  video?: InputMaybe<LinkWhere>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyWhere = {
+  button?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlockWhere>;
+  button_exists?: InputMaybe<Scalars['Boolean']>;
+  commissioner_avatars?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlockWhere>;
+  commissioner_avatars_exists?: InputMaybe<Scalars['Boolean']>;
+  divider?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlockWhere>;
+  divider_exists?: InputMaybe<Scalars['Boolean']>;
+  featured_links?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockWhere>;
+  featured_links_exists?: InputMaybe<Scalars['Boolean']>;
+  featured_news?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockWhere>;
+  featured_news_exists?: InputMaybe<Scalars['Boolean']>;
+  html?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlockWhere>;
+  html_exists?: InputMaybe<Scalars['Boolean']>;
+  video?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlockWhere>;
+  video_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderBodySectionContainerBlockWhere = {
+  description?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_ne?: InputMaybe<Scalars['String']>;
+  description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  grid_modifiers?: InputMaybe<Scalars['String']>;
+  grid_modifiers_exists?: InputMaybe<Scalars['Boolean']>;
+  grid_modifiers_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  grid_modifiers_ne?: InputMaybe<Scalars['String']>;
+  grid_modifiers_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading?: InputMaybe<Scalars['String']>;
+  heading_exists?: InputMaybe<Scalars['Boolean']>;
+  heading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading_ne?: InputMaybe<Scalars['String']>;
+  heading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  inset_body?: InputMaybe<Scalars['Boolean']>;
+  inset_body_exists?: InputMaybe<Scalars['Boolean']>;
+  inset_body_ne?: InputMaybe<Scalars['Boolean']>;
+  vb_section_container_body?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyWhere>;
+};
+
+export type SysVisualBuilderVisualBuilderBodyWhere = {
+  banner?: InputMaybe<SysVisualBuilderVisualBuilderBodyBannerBlockWhere>;
+  banner_exists?: InputMaybe<Scalars['Boolean']>;
+  default?: InputMaybe<SysVisualBuilderVisualBuilderBodyDefaultBlockWhere>;
+  default_exists?: InputMaybe<Scalars['Boolean']>;
+  divider?: InputMaybe<SysVisualBuilderVisualBuilderBodyDividerBlockWhere>;
+  divider_exists?: InputMaybe<Scalars['Boolean']>;
+  hero?: InputMaybe<SysVisualBuilderVisualBuilderBodyHeroBlockWhere>;
+  hero_exists?: InputMaybe<Scalars['Boolean']>;
+  section_container?: InputMaybe<SysVisualBuilderVisualBuilderBodySectionContainerBlockWhere>;
+  section_container_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderSidebarDefaultBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SysVisualBuilderVisualBuilderSidebarImageBlockWhere = {
+  link?: InputMaybe<LinkWhere>;
+};
+
+export type SysVisualBuilderVisualBuilderSidebarWhere = {
+  default?: InputMaybe<SysVisualBuilderVisualBuilderSidebarDefaultBlockWhere>;
+  default_exists?: InputMaybe<Scalars['Boolean']>;
+  image?: InputMaybe<SysVisualBuilderVisualBuilderSidebarImageBlockWhere>;
+  image_exists?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type SystemPublishDetails = {
@@ -4344,17 +7580,707 @@ export type SystemPublishDetails = {
   locale?: Maybe<Scalars['String']>;
   time?: Maybe<Scalars['DateTime']>;
   user?: Maybe<Scalars['String']>;
+  variants?: Maybe<Array<Maybe<SysVariants>>>;
 };
 
-export type UniformComposition = {
-  __typename?: 'UniformComposition';
+export type SystemPublishDetailsWhere = {
+  locale?: InputMaybe<Scalars['String']>;
+  locale_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locale_ne?: InputMaybe<Scalars['String']>;
+  locale_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  time?: InputMaybe<Scalars['DateTime']>;
+  time_gt?: InputMaybe<Scalars['DateTime']>;
+  time_gte?: InputMaybe<Scalars['DateTime']>;
+  time_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  time_lt?: InputMaybe<Scalars['DateTime']>;
+  time_lte?: InputMaybe<Scalars['DateTime']>;
+  time_ne?: InputMaybe<Scalars['DateTime']>;
+  time_nin?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  user?: InputMaybe<Scalars['String']>;
+  user_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  user_ne?: InputMaybe<Scalars['String']>;
+  user_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type Taxonomy = {
+  __typename?: 'Taxonomy';
+  taxonomy_uid?: Maybe<Scalars['String']>;
+  term_uid?: Maybe<Scalars['String']>;
+};
+
+export type VisualBuilder = {
+  __typename?: 'VisualBuilder';
+  enable_sidebar?: Maybe<Scalars['Boolean']>;
+  visual_builder_body?: Maybe<Array<Maybe<VisualBuilderVisualBuilderBody>>>;
+  visual_builder_sidebar?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebar>>>;
+};
+
+export type VisualBuilderVisualBuilderBody = VisualBuilderVisualBuilderBodyBanner | VisualBuilderVisualBuilderBodyDefault | VisualBuilderVisualBuilderBodyDivider | VisualBuilderVisualBuilderBodyHero | VisualBuilderVisualBuilderBodySectionContainer;
+
+export type VisualBuilderVisualBuilderBodyBanner = {
+  __typename?: 'VisualBuilderVisualBuilderBodyBanner';
+  banner?: Maybe<VisualBuilderVisualBuilderBodyBannerBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodyBannerBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodyBannerBlock';
+  background_gradient?: Maybe<Scalars['JSON']>;
+  description?: Maybe<Scalars['String']>;
+  heading?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
-export type UniformCompositionWhere = {
+export type VisualBuilderVisualBuilderBodyBannerBlockWhere = {
+  background_gradient?: InputMaybe<Scalars['JSON']>;
+  background_gradient_exists?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_ne?: InputMaybe<Scalars['String']>;
+  description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading?: InputMaybe<Scalars['String']>;
+  heading_exists?: InputMaybe<Scalars['Boolean']>;
+  heading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading_ne?: InputMaybe<Scalars['String']>;
+  heading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_exists?: InputMaybe<Scalars['Boolean']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url_ne?: InputMaybe<Scalars['String']>;
   url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VisualBuilderVisualBuilderBodyDefault = {
+  __typename?: 'VisualBuilderVisualBuilderBodyDefault';
+  default?: Maybe<VisualBuilderVisualBuilderBodyDefaultBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodyDefaultBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodyDefaultBlock';
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodyDefaultBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodyDivider = {
+  __typename?: 'VisualBuilderVisualBuilderBodyDivider';
+  divider?: Maybe<VisualBuilderVisualBuilderBodyDividerBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodyDividerBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodyDividerBlock';
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodyDividerBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodyHero = {
+  __typename?: 'VisualBuilderVisualBuilderBodyHero';
+  hero?: Maybe<VisualBuilderVisualBuilderBodyHeroBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodyHeroBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodyHeroBlock';
+  background_gradient?: Maybe<Scalars['JSON']>;
+  background_imageConnection?: Maybe<SysAssetConnection>;
+  background_image_cloudinary?: Maybe<Scalars['JSON']>;
+  call_to_action_text?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  heading?: Maybe<Scalars['String']>;
+  link_url?: Maybe<Scalars['String']>;
+  show_call_to_action?: Maybe<Scalars['Boolean']>;
+  subheading?: Maybe<Scalars['String']>;
+};
+
+export type VisualBuilderVisualBuilderBodyHeroBlockWhere = {
+  background_gradient?: InputMaybe<Scalars['JSON']>;
+  background_gradient_exists?: InputMaybe<Scalars['Boolean']>;
+  background_image?: InputMaybe<SysAssetWhere>;
+  background_image_cloudinary?: InputMaybe<Scalars['JSON']>;
+  background_image_cloudinary_exists?: InputMaybe<Scalars['Boolean']>;
+  background_image_exists?: InputMaybe<Scalars['Boolean']>;
+  call_to_action_text?: InputMaybe<Scalars['String']>;
+  call_to_action_text_exists?: InputMaybe<Scalars['Boolean']>;
+  call_to_action_text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  call_to_action_text_ne?: InputMaybe<Scalars['String']>;
+  call_to_action_text_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color?: InputMaybe<Scalars['String']>;
+  color_exists?: InputMaybe<Scalars['Boolean']>;
+  color_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color_ne?: InputMaybe<Scalars['String']>;
+  color_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading?: InputMaybe<Scalars['String']>;
+  heading_exists?: InputMaybe<Scalars['Boolean']>;
+  heading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading_ne?: InputMaybe<Scalars['String']>;
+  heading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link_url?: InputMaybe<Scalars['String']>;
+  link_url_exists?: InputMaybe<Scalars['Boolean']>;
+  link_url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link_url_ne?: InputMaybe<Scalars['String']>;
+  link_url_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  show_call_to_action?: InputMaybe<Scalars['Boolean']>;
+  show_call_to_action_exists?: InputMaybe<Scalars['Boolean']>;
+  show_call_to_action_ne?: InputMaybe<Scalars['Boolean']>;
+  subheading?: InputMaybe<Scalars['String']>;
+  subheading_exists?: InputMaybe<Scalars['Boolean']>;
+  subheading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  subheading_ne?: InputMaybe<Scalars['String']>;
+  subheading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainer = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainer';
+  section_container?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlock';
+  background_gradient?: Maybe<Scalars['JSON']>;
+  background_imageConnection?: Maybe<SysAssetConnection>;
+  description?: Maybe<Scalars['String']>;
+  grid_modifiers?: Maybe<Array<Maybe<Scalars['String']>>>;
+  heading?: Maybe<Scalars['String']>;
+  inset_body?: Maybe<Scalars['Boolean']>;
+  vb_section_container_body?: Maybe<Array<Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBody>>>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBody = VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButton | VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatars | VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDivider | VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinks | VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNews | VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtml | VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideo;
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButton = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButton';
+  button?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlock';
+  block?: Maybe<Scalars['Boolean']>;
+  color?: Maybe<Scalars['String']>;
+  justify?: Maybe<Scalars['String']>;
+  link?: Maybe<Link>;
+  size?: Maybe<Scalars['String']>;
+  variant?: Maybe<Scalars['String']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlockWhere = {
+  block?: InputMaybe<Scalars['Boolean']>;
+  block_exists?: InputMaybe<Scalars['Boolean']>;
+  block_ne?: InputMaybe<Scalars['Boolean']>;
+  color?: InputMaybe<Scalars['String']>;
+  color_exists?: InputMaybe<Scalars['Boolean']>;
+  color_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  color_ne?: InputMaybe<Scalars['String']>;
+  color_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  justify?: InputMaybe<Scalars['String']>;
+  justify_exists?: InputMaybe<Scalars['Boolean']>;
+  justify_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  justify_ne?: InputMaybe<Scalars['String']>;
+  justify_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link?: InputMaybe<LinkWhere>;
+  link_exists?: InputMaybe<Scalars['Boolean']>;
+  size?: InputMaybe<Scalars['String']>;
+  size_exists?: InputMaybe<Scalars['Boolean']>;
+  size_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  size_ne?: InputMaybe<Scalars['String']>;
+  size_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  variant?: InputMaybe<Scalars['String']>;
+  variant_exists?: InputMaybe<Scalars['Boolean']>;
+  variant_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  variant_ne?: InputMaybe<Scalars['String']>;
+  variant_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatars = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatars';
+  commissioner_avatars?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlock';
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDivider = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDivider';
+  divider?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlock';
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinks = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinks';
+  featured_links?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlock';
+  links?: Maybe<Array<Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinks>>>;
+  variant?: Maybe<Scalars['String']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinks = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinks';
+  description?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  link?: Maybe<Link>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinksWhere = {
+  description?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_ne?: InputMaybe<Scalars['String']>;
+  description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon?: InputMaybe<Scalars['String']>;
+  icon_exists?: InputMaybe<Scalars['Boolean']>;
+  icon_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  icon_ne?: InputMaybe<Scalars['String']>;
+  icon_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  link?: InputMaybe<LinkWhere>;
+  link_exists?: InputMaybe<Scalars['Boolean']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_exists?: InputMaybe<Scalars['Boolean']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_ne?: InputMaybe<Scalars['String']>;
+  title_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockWhere = {
+  links?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockLinksWhere>;
+  links_exists?: InputMaybe<Scalars['Boolean']>;
+  variant?: InputMaybe<Scalars['String']>;
+  variant_exists?: InputMaybe<Scalars['Boolean']>;
+  variant_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  variant_ne?: InputMaybe<Scalars['String']>;
+  variant_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNews = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNews';
+  featured_news?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlock';
+  categories?: Maybe<ArticleCategories>;
+  limit?: Maybe<Scalars['Float']>;
+  select_manuallyConnection?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyConnection>;
+};
+
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelect_ManuallyConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<SysRefVisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyWhere>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyConnection = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyEdge = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyEdge';
+  node?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyNode>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyNode = Article;
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  article?: InputMaybe<ArticleWhere>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockWhere = {
+  categories?: InputMaybe<ArticleCategoriesWhere>;
+  categories_exists?: InputMaybe<Scalars['Boolean']>;
+  limit?: InputMaybe<Scalars['Float']>;
+  limit_exists?: InputMaybe<Scalars['Boolean']>;
+  limit_gt?: InputMaybe<Scalars['Float']>;
+  limit_gte?: InputMaybe<Scalars['Float']>;
+  limit_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  limit_lt?: InputMaybe<Scalars['Float']>;
+  limit_lte?: InputMaybe<Scalars['Float']>;
+  limit_ne?: InputMaybe<Scalars['Float']>;
+  limit_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  select_manually?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockSelectManuallyWhere>;
+  select_manually_count?: InputMaybe<Scalars['Int']>;
+  select_manually_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtml = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtml';
+  html?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlock';
+  rich_text_editor?: Maybe<Scalars['String']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlockWhere = {
+  rich_text_editor?: InputMaybe<Scalars['String']>;
+  rich_text_editor_exists?: InputMaybe<Scalars['Boolean']>;
+  rich_text_editor_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  rich_text_editor_ne?: InputMaybe<Scalars['String']>;
+  rich_text_editor_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideo = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideo';
+  video?: Maybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlock>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlock = {
+  __typename?: 'VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlock';
+  aspect_ratio?: Maybe<Scalars['Float']>;
+  video?: Maybe<Link>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlockWhere = {
+  aspect_ratio?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_exists?: InputMaybe<Scalars['Boolean']>;
+  aspect_ratio_gt?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_gte?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  aspect_ratio_lt?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_lte?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_ne?: InputMaybe<Scalars['Float']>;
+  aspect_ratio_nin?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  video?: InputMaybe<LinkWhere>;
+  video_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyWhere = {
+  button?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyButtonBlockWhere>;
+  button_exists?: InputMaybe<Scalars['Boolean']>;
+  commissioner_avatars?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyCommissionerAvatarsBlockWhere>;
+  commissioner_avatars_exists?: InputMaybe<Scalars['Boolean']>;
+  divider?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyDividerBlockWhere>;
+  divider_exists?: InputMaybe<Scalars['Boolean']>;
+  featured_links?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedLinksBlockWhere>;
+  featured_links_exists?: InputMaybe<Scalars['Boolean']>;
+  featured_news?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyFeaturedNewsBlockWhere>;
+  featured_news_exists?: InputMaybe<Scalars['Boolean']>;
+  html?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyHtmlBlockWhere>;
+  html_exists?: InputMaybe<Scalars['Boolean']>;
+  video?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyVideoBlockWhere>;
+  video_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodySectionContainerBlockWhere = {
+  background_gradient?: InputMaybe<Scalars['JSON']>;
+  background_gradient_exists?: InputMaybe<Scalars['Boolean']>;
+  background_image?: InputMaybe<SysAssetWhere>;
+  background_image_exists?: InputMaybe<Scalars['Boolean']>;
+  description?: InputMaybe<Scalars['String']>;
+  description_exists?: InputMaybe<Scalars['Boolean']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_ne?: InputMaybe<Scalars['String']>;
+  description_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  grid_modifiers?: InputMaybe<Scalars['String']>;
+  grid_modifiers_exists?: InputMaybe<Scalars['Boolean']>;
+  grid_modifiers_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  grid_modifiers_ne?: InputMaybe<Scalars['String']>;
+  grid_modifiers_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading?: InputMaybe<Scalars['String']>;
+  heading_exists?: InputMaybe<Scalars['Boolean']>;
+  heading_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  heading_ne?: InputMaybe<Scalars['String']>;
+  heading_nin?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  inset_body?: InputMaybe<Scalars['Boolean']>;
+  inset_body_exists?: InputMaybe<Scalars['Boolean']>;
+  inset_body_ne?: InputMaybe<Scalars['Boolean']>;
+  vb_section_container_body?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockVbSectionContainerBodyWhere>;
+  vb_section_container_body_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderBodyWhere = {
+  banner?: InputMaybe<VisualBuilderVisualBuilderBodyBannerBlockWhere>;
+  banner_exists?: InputMaybe<Scalars['Boolean']>;
+  default?: InputMaybe<VisualBuilderVisualBuilderBodyDefaultBlockWhere>;
+  default_exists?: InputMaybe<Scalars['Boolean']>;
+  divider?: InputMaybe<VisualBuilderVisualBuilderBodyDividerBlockWhere>;
+  divider_exists?: InputMaybe<Scalars['Boolean']>;
+  hero?: InputMaybe<VisualBuilderVisualBuilderBodyHeroBlockWhere>;
+  hero_exists?: InputMaybe<Scalars['Boolean']>;
+  section_container?: InputMaybe<VisualBuilderVisualBuilderBodySectionContainerBlockWhere>;
+  section_container_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebar = VisualBuilderVisualBuilderSidebarArticle | VisualBuilderVisualBuilderSidebarCalendarEvent | VisualBuilderVisualBuilderSidebarContact | VisualBuilderVisualBuilderSidebarDefault | VisualBuilderVisualBuilderSidebarDisclaimer | VisualBuilderVisualBuilderSidebarImage | VisualBuilderVisualBuilderSidebarLocation;
+
+export type VisualBuilderVisualBuilderSidebarArticle = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarArticle';
+  article?: Maybe<VisualBuilderVisualBuilderSidebarArticleBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarArticleBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarArticleBlock';
+  articleConnection?: Maybe<VisualBuilderVisualBuilderSidebarArticleBlockArticleConnection>;
+};
+
+export type VisualBuilderVisualBuilderSidebarArticleBlockArticleConnection = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarArticleBlockArticleConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebarArticleBlockArticleEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarArticleBlockArticleEdge = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarArticleBlockArticleEdge';
+  node?: Maybe<VisualBuilderVisualBuilderSidebarArticleBlockArticleNode>;
+};
+
+export type VisualBuilderVisualBuilderSidebarArticleBlockArticleNode = Article;
+
+export type VisualBuilderVisualBuilderSidebarArticleBlockArticleWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  article?: InputMaybe<ArticleWhere>;
+};
+
+export type VisualBuilderVisualBuilderSidebarArticleBlockWhere = {
+  article?: InputMaybe<VisualBuilderVisualBuilderSidebarArticleBlockArticleWhere>;
+  article_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarCalendarEvent = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarCalendarEvent';
+  calendar_event?: Maybe<VisualBuilderVisualBuilderSidebarCalendarEventBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarCalendarEventBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarCalendarEventBlock';
+  calendar_eventConnection?: Maybe<VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventConnection>;
+};
+
+export type VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventConnection = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventEdge = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventEdge';
+  node?: Maybe<VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventNode>;
+};
+
+export type VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventNode = CalendarEventInstance;
+
+export type VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  calendar_event_instance?: InputMaybe<CalendarEventInstanceWhere>;
+};
+
+export type VisualBuilderVisualBuilderSidebarCalendarEventBlockWhere = {
+  calendar_event?: InputMaybe<VisualBuilderVisualBuilderSidebarCalendarEventBlockCalendarEventWhere>;
+  calendar_event_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarContact = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarContact';
+  contact?: Maybe<VisualBuilderVisualBuilderSidebarContactBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarContactBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarContactBlock';
+  contactConnection?: Maybe<VisualBuilderVisualBuilderSidebarContactBlockContactConnection>;
+};
+
+export type VisualBuilderVisualBuilderSidebarContactBlockContactConnection = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarContactBlockContactConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebarContactBlockContactEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarContactBlockContactEdge = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarContactBlockContactEdge';
+  node?: Maybe<VisualBuilderVisualBuilderSidebarContactBlockContactNode>;
+};
+
+export type VisualBuilderVisualBuilderSidebarContactBlockContactNode = Contact;
+
+export type VisualBuilderVisualBuilderSidebarContactBlockContactWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  contact?: InputMaybe<ContactWhere>;
+};
+
+export type VisualBuilderVisualBuilderSidebarContactBlockWhere = {
+  contact?: InputMaybe<VisualBuilderVisualBuilderSidebarContactBlockContactWhere>;
+  contact_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDefault = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarDefault';
+  default?: Maybe<VisualBuilderVisualBuilderSidebarDefaultBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDefaultBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarDefaultBlock';
+  enabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDefaultBlockWhere = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  enabled_exists?: InputMaybe<Scalars['Boolean']>;
+  enabled_ne?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDisclaimer = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarDisclaimer';
+  disclaimer?: Maybe<VisualBuilderVisualBuilderSidebarDisclaimerBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDisclaimerBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarDisclaimerBlock';
+  disclaimerConnection?: Maybe<VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerConnection>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerConnection = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerEdge = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerEdge';
+  node?: Maybe<VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerNode>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerNode = Disclaimer;
+
+export type VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  disclaimer?: InputMaybe<DisclaimerWhere>;
+};
+
+export type VisualBuilderVisualBuilderSidebarDisclaimerBlockWhere = {
+  disclaimer?: InputMaybe<VisualBuilderVisualBuilderSidebarDisclaimerBlockDisclaimerWhere>;
+  disclaimer_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarImage = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarImage';
+  image?: Maybe<VisualBuilderVisualBuilderSidebarImageBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarImageBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarImageBlock';
+  external_linkConnection?: Maybe<VisualBuilderVisualBuilderSidebarImageBlockExternalLinkConnection>;
+  imageConnection?: Maybe<SysAssetConnection>;
+  image_cloudinary?: Maybe<Scalars['JSON']>;
+  link?: Maybe<Link>;
+};
+
+export type VisualBuilderVisualBuilderSidebarImageBlockExternalLinkConnection = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarImageBlockExternalLinkConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebarImageBlockExternalLinkEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarImageBlockExternalLinkEdge = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarImageBlockExternalLinkEdge';
+  node?: Maybe<VisualBuilderVisualBuilderSidebarImageBlockExternalLinkNode>;
+};
+
+export type VisualBuilderVisualBuilderSidebarImageBlockExternalLinkNode = ExternalLink;
+
+export type VisualBuilderVisualBuilderSidebarImageBlockExternalLinkWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  external_link?: InputMaybe<ExternalLinkWhere>;
+};
+
+export type VisualBuilderVisualBuilderSidebarImageBlockWhere = {
+  external_link?: InputMaybe<VisualBuilderVisualBuilderSidebarImageBlockExternalLinkWhere>;
+  external_link_exists?: InputMaybe<Scalars['Boolean']>;
+  image?: InputMaybe<SysAssetWhere>;
+  image_cloudinary?: InputMaybe<Scalars['JSON']>;
+  image_cloudinary_exists?: InputMaybe<Scalars['Boolean']>;
+  image_exists?: InputMaybe<Scalars['Boolean']>;
+  link?: InputMaybe<LinkWhere>;
+  link_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarLocation = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarLocation';
+  location?: Maybe<VisualBuilderVisualBuilderSidebarLocationBlock>;
+};
+
+export type VisualBuilderVisualBuilderSidebarLocationBlock = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarLocationBlock';
+  locationConnection?: Maybe<VisualBuilderVisualBuilderSidebarLocationBlockLocationConnection>;
+};
+
+export type VisualBuilderVisualBuilderSidebarLocationBlockLocationConnection = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarLocationBlockLocationConnection';
+  edges?: Maybe<Array<Maybe<VisualBuilderVisualBuilderSidebarLocationBlockLocationEdge>>>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarLocationBlockLocationEdge = {
+  __typename?: 'VisualBuilderVisualBuilderSidebarLocationBlockLocationEdge';
+  node?: Maybe<VisualBuilderVisualBuilderSidebarLocationBlockLocationNode>;
+};
+
+export type VisualBuilderVisualBuilderSidebarLocationBlockLocationNode = Location;
+
+export type VisualBuilderVisualBuilderSidebarLocationBlockLocationWhere = {
+  MATCH?: InputMaybe<EvalReferenceEnum>;
+  location?: InputMaybe<LocationWhere>;
+};
+
+export type VisualBuilderVisualBuilderSidebarLocationBlockWhere = {
+  location?: InputMaybe<VisualBuilderVisualBuilderSidebarLocationBlockLocationWhere>;
+  location_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderVisualBuilderSidebarWhere = {
+  article?: InputMaybe<VisualBuilderVisualBuilderSidebarArticleBlockWhere>;
+  article_exists?: InputMaybe<Scalars['Boolean']>;
+  calendar_event?: InputMaybe<VisualBuilderVisualBuilderSidebarCalendarEventBlockWhere>;
+  calendar_event_exists?: InputMaybe<Scalars['Boolean']>;
+  contact?: InputMaybe<VisualBuilderVisualBuilderSidebarContactBlockWhere>;
+  contact_exists?: InputMaybe<Scalars['Boolean']>;
+  default?: InputMaybe<VisualBuilderVisualBuilderSidebarDefaultBlockWhere>;
+  default_exists?: InputMaybe<Scalars['Boolean']>;
+  disclaimer?: InputMaybe<VisualBuilderVisualBuilderSidebarDisclaimerBlockWhere>;
+  disclaimer_exists?: InputMaybe<Scalars['Boolean']>;
+  image?: InputMaybe<VisualBuilderVisualBuilderSidebarImageBlockWhere>;
+  image_exists?: InputMaybe<Scalars['Boolean']>;
+  location?: InputMaybe<VisualBuilderVisualBuilderSidebarLocationBlockWhere>;
+  location_exists?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type VisualBuilderWhere = {
+  enable_sidebar?: InputMaybe<Scalars['Boolean']>;
+  enable_sidebar_exists?: InputMaybe<Scalars['Boolean']>;
+  enable_sidebar_ne?: InputMaybe<Scalars['Boolean']>;
+  visual_builder_body?: InputMaybe<VisualBuilderVisualBuilderBodyWhere>;
+  visual_builder_body_exists?: InputMaybe<Scalars['Boolean']>;
+  visual_builder_sidebar?: InputMaybe<VisualBuilderVisualBuilderSidebarWhere>;
+  visual_builder_sidebar_exists?: InputMaybe<Scalars['Boolean']>;
 };

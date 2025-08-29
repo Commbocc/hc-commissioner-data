@@ -1,10 +1,10 @@
-import { ASTNode, print } from 'graphql'
-import { Query } from '~~/types/contentstack'
-import { gql } from 'graphql-tag'
+import { type ASTNode, print } from "graphql";
+import type { Query } from "~~/types/contentstack";
+import { gql } from "graphql-tag";
 
 interface IGraphqlRequest {
-  query: any
-  variables?: any
+  query: any;
+  variables?: any;
 }
 
 const query = gql`
@@ -26,7 +26,7 @@ const query = gql`
           edges {
             node {
               ... on Contact {
-                headshotConnection {
+                cs_headshotConnection {
                   edges {
                     node {
                       ...SysAssetFragment
@@ -70,15 +70,15 @@ const query = gql`
       tags
     }
   }
-`
+`;
 
 export default defineEventHandler(async (event) => {
   const { all_commissioner } = await client({
     query,
-  })
+  });
 
-  return all_commissioner?.items?.sort(sortByDistrict) ?? []
-})
+  return all_commissioner?.items?.sort(sortByDistrict) ?? [];
+});
 
 /**
  *
@@ -89,21 +89,21 @@ async function client({ query, variables }: IGraphqlRequest): Promise<Query> {
   const { data } = await $fetch<{ data: Query }>(
     `https://graphql.contentstack.com/stacks/${process.env.CONTENTSTACK_API_KEY}?environment=${process.env.CONTENTSTACK_ENVIRONMENT}`,
     {
-      method: 'POST',
+      method: "POST",
 
       headers: {
-        'Content-Type': 'application/json',
-        access_token: process.env.CONTENTSTACK_DELIVERY_TOKEN || '',
+        "Content-Type": "application/json",
+        access_token: process.env.CONTENTSTACK_DELIVERY_TOKEN || "",
       },
 
       body: JSON.stringify({
-        query: typeof query === 'string' ? query : print(query as ASTNode),
+        query: typeof query === "string" ? query : print(query as ASTNode),
         variables,
       }),
     }
-  )
+  );
 
-  return data
+  return data;
 }
 
 /**
@@ -113,5 +113,5 @@ async function client({ query, variables }: IGraphqlRequest): Promise<Query> {
  * @returns
  */
 function sortByDistrict(a: any, b: any) {
-  return a.district - b.district
+  return a.district - b.district;
 }
