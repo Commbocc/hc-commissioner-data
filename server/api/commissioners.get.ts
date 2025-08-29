@@ -26,6 +26,7 @@ const query = gql`
           edges {
             node {
               ... on Contact {
+                headshot
                 cs_headshotConnection {
                   edges {
                     node {

@@ -2,10 +2,10 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - 'main'
+      - "main"
 
   schedule:
-    - cron: '0 0 * * 0' # At 00:00 on Sunday
+    - cron: "0 0 * * 0" # At 00:00 on Sunday
 
   workflow_dispatch:
 
@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install and Build 🔧
         run: |
-          npm ci
+          npm i
           npm run generate
         env:
           CONTENTSTACK_API_KEY: ${{ secrets.CONTENTSTACK_API_KEY }}
